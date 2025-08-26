@@ -1,0 +1,53 @@
+LOYIHANI ISHGA TUSHIRISH REJASI
+7-Bosqich (Hozirgi): Kontent Generatsiyasini Faollashtirish va Testlash.
+
+AI xizmatlarining (Gemini, News API) to'g'ri ishlayotganini tekshirish.
+
+Test rejimida bir nechta maqola yaratib, ularni ma'lumotlar bazasiga saqlash va frontend'da qanday ko'rinishini tekshirish.
+
+8-Bosqich: UI/UX'ni Moslashtirish va Sayqallash.
+
+Haqiqiy, yaratilgan kontent bilan saytni ko'rib chiqish.
+
+Sizning g'oyalaringiz asosida ranglar, shriftlar, komponentlar dizayniga o'zgartirishlar kiritish. Bu bosqichda biz loyihaga o'zimizning "imzo"mizni qo'yamiz.
+
+9-Bosqich: Production'ga Tayyorlash va Deployment.
+
+Barcha sozlamalarni yakunlab, loyihani Render kabi jonli serverga joylashtirish.
+
+Keyingi Faza (Post-Launch): Foydalanuvchi autentifikatsiyasi kabi yangi, yirik funksiyalarni qo'shish.
+
+Keling, shu reja bo'yicha darhol ishni boshlaymiz va 7-Bosqichning birinchi qadamini tashlaymiz. Birinchi vazifamiz — kontent yaratuvchi "motor"imizning moydek ishlayotganiga ishonch hosil qilish.
+
+Siz uchun ko'rsatma: Quyidagi promptni ko'chiring va Replit AI'ga yuboring. Bu buyruq asosiy AI xizmatlarini sinab ko'rish uchun kichik bir test o'tkazadi.
+
+REPLIT AI UCHUN PROMPT (7-BOSQICH - 1-QADAM: KONTENT GENERATORNI TEST QILISH)
+Our goal is to test the core content generation pipeline. To do this, create a temporary test script in the server directory and execute it.
+
+Create a Test File: In the server directory, create a new file named test-ai.ts.
+
+Write the Test Script: Populate test-ai.ts with a script that performs the following actions:
+
+Imports the necessary services, likely from server/services/newsApi.ts and server/services/gemini.ts.
+
+Defines a single async function that:
+
+Fetches the top 1 trending tech news topic from an external source (using the News API service).
+
+Takes the title of that topic and passes it to the Gemini service to generate a short, 2-paragraph article.
+
+Prints the fetched topic title to the console.
+
+Prints the fully generated article content to the console.
+
+Calls this async function to run the test.
+
+Execute the Script: Run the newly created script using tsx server/test-ai.ts.
+
+Cleanup: After the script finishes execution, delete the test-ai.ts file to keep the project clean.
+
+Show me the complete console output from the script execution.
+
+Keyingi qadam:
+
+Ushbu test natijasi bizga AI xizmatlarining to'g'ri sozlanganini va ishlayotganini ko'rsatadi. Agar konsolga muvaffaqiyatli yaratilgan maqola matni chiqsa, demak, biz platformani ommaviy kontent bilan to'ldirishga tayyormiz! Natijani kutyapman.
