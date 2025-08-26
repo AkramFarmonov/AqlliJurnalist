@@ -47,7 +47,7 @@ export default function Home() {
       <Navbar onSearch={handleSearch} />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           
           {/* Main Content Area */}
           <main className="lg:col-span-8">
@@ -63,7 +63,7 @@ export default function Home() {
 
             <section className="mt-8" data-testid="articles-section">
               {isLoading ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                   {[...Array(6)].map((_, i) => (
                     <div key={i} className="bg-card border border-border rounded-xl p-6 animate-pulse">
                       <div className="space-y-4">
@@ -82,11 +82,11 @@ export default function Home() {
                   <p className="text-muted-foreground">Hech qanday maqola topilmadi.</p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                   {filteredArticles.map((article, index) => (
                     <div 
                       key={article.id}
-                      className={index === 0 ? "md:col-span-2 lg:col-span-2" : "col-span-1"}
+                      className={index === 0 ? "md:col-span-2 xl:col-span-2" : "col-span-1"}
                     >
                       <ArticleCard 
                         article={article} 
@@ -112,7 +112,7 @@ export default function Home() {
           </main>
 
           {/* Sidebar */}
-          <aside className="lg:col-span-4 space-y-6">
+          <aside className="lg:col-span-4 space-y-6 lg:sticky lg:top-6 lg:h-fit">
             <AiChat />
             <TrendingTopics />
             <AnalyticsDashboard />

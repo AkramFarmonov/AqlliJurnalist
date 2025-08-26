@@ -67,9 +67,14 @@ export class MemStorage implements IStorage {
       isBot: true,
     });
 
-    // If no articles exist, populate with AI-generated content
+    // If no articles exist, populate with sample content
     if (this.articles.size === 0) {
-      await this.seedArticles();
+      try {
+        await this.seedArticles();
+      } catch (error) {
+        console.log("AI generation failed, creating sample articles...");
+        await this.createSampleArticles();
+      }
     }
   }
 
@@ -103,6 +108,7 @@ export class MemStorage implements IStorage {
 
     console.log("🚀 Initializing storage with AI-generated articles...");
     
+    let successfulArticles = 0;
     for (let i = 0; i < topics.length; i++) {
       try {
         const topic = topics[i];
@@ -123,6 +129,7 @@ export class MemStorage implements IStorage {
         });
         
         console.log(`✅ Article created: ${generatedArticle.title}`);
+        successfulArticles++;
         
         // Small delay to avoid rate limiting
         await new Promise(resolve => setTimeout(resolve, 100));
@@ -131,7 +138,62 @@ export class MemStorage implements IStorage {
       }
     }
     
+    // If no articles were generated successfully, throw error to trigger fallback
+    if (successfulArticles === 0) {
+      throw new Error("Failed to generate any articles due to API quota limits");
+    }
+    
     console.log(`🎉 Storage initialized with ${this.articles.size} articles!`);
+  }
+
+  private async createSampleArticles() {
+    const sampleArticles = [
+      {
+        title: "Kvant kompyuterlarining kelajagi: texnologiyaning yangi davri",
+        summary: "Kvant kompyuterlari an'anaviy kompyuterlardan minglap marta tezroq ishlaydi va murakkab masalalarni hal qilish imkonini beradi.",
+        content: "Kvant kompyuterlari zamonaviy texnologiyaning eng muhim yutuqlaridan biri hisoblanadi...",
+        category: "Texnologiya",
+        tags: ["kvant", "kompyuter", "fan", "texnologiya"],
+        isAiGenerated: false
+      },
+      {
+        title: "Toshkentda elektromobillar infratuzilmasi rivojlanmoqda",
+        summary: "O'zbekiston poytaxtida elektromobillar uchun zaryadlash stansiyalari faol o'rnatilmoqda.",
+        content: "Toshkent shahrida transport tizimini modernizatsiya qilish doirasida...",
+        category: "Transport",
+        tags: ["elektromobil", "Toshkent", "infratuzilma", "ekologiya"],
+        isAiGenerated: false
+      },
+      {
+        title: "O'zbekistonning IT eksport salohiyati: imkoniyatlar va istiqbollar",
+        summary: "Mamlakat IT xizmatlarini eksport qilish borasida sezilarli yutuqlarga erishmoqda.",
+        content: "So'nggi yillarda O'zbekistonda IT sohasining rivojlanishi...",
+        category: "IT va Biznes",
+        tags: ["IT", "eksport", "O'zbekiston", "texnologiya"],
+        isAiGenerated: false
+      },
+      {
+        title: "Sun'iy intellekt va ta'lim tizimi: yangi imkoniyatlar",
+        summary: "AI texnologiyalari ta'lim jarayonini tubdan o'zgartirib, shaxsiy yondashuvni ta'minlaydi.",
+        content: "Sun'iy intellekt ta'lim sohasida inqilob yaratmoqda...",
+        category: "Ta'lim",
+        tags: ["AI", "ta'lim", "texnologiya", "innovatsiya"],
+        isAiGenerated: false
+      },
+      {
+        title: "Blokcheyn texnologiyasi va uning amaliy qo'llanilishi",
+        summary: "Blokcheyn nafaqat kriptovalyuta, balki ko'plab sohalarda inqilobiy o'zgarishlar olib kelmoqda.",
+        content: "Blokcheyn texnologiyasi zamonaviy dunyoda...",
+        category: "Blokcheyn",
+        tags: ["blokcheyn", "kriptovalyuta", "xavfsizlik", "texnologiya"],
+        isAiGenerated: false
+      }
+    ];
+
+    for (const articleData of sampleArticles) {
+      await this.createArticle(articleData);
+      console.log(`✅ Sample article created: ${articleData.title}`);
+    }
   }
 
   // Users
