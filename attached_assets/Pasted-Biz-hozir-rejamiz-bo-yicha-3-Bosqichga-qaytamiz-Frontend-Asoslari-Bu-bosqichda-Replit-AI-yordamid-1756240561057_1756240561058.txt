@@ -1,0 +1,72 @@
+Biz hozir rejamiz bo'yicha 3-Bosqichga qaytamiz: Frontend Asoslari.
+
+Bu bosqichda Replit AI yordamida client papkasini to'liq tozalaymiz va uni noldan React, Vite, TypeScript, Tailwind CSS va eng asosiysi, zamonaviy komponentlar kutubxonasi bo'lgan shadcn/ui bilan professional tarzda sozlaymiz.
+
+prompt.md faylini yangilash:
+Bosqich yakunlangandan so'ng, prompt.md faylingizni quyidagi holatga keltiring. Bu bizning jarayonimizni to'g'ri aks ettiradi:
+
+Markdown
+
+# LOYIHA: "AQLLI JURNALIST"
+
+## ASOSIY MAQSAD
+AI yordamida trendlarni aniqlaydigan, unikal maqolalar yaratadigan va foydalanuvchilar bilan interaktiv muloqot qiladigan aqlli yangiliklar platformasi.
+
+---
+
+### HOZIRGI BOSQICH
+**3-Bosqich:** Frontend Asoslari (Dizayn Tizimi va Sahifalar).
+
+### BAJARILGAN ISHLAR
+- **1-Bosqich yakunlandi:** Loyiha tuzilmasi va workspace sozlandi.
+- **2-Bosqich yakunlandi:** Backend poydevori (Express, TS, Drizzle) mavjud shablonda tayyor.
+- **QAROR QABUL QILINDI:** Mavjud frontend shablonidan voz kechib, uni noldan qurishga qaror qilindi.
+
+### KEYINGI QADAM
+- `client` papkasini tozalash.
+- Yangi React + Vite + TypeScript loyihasini yaratish.
+- Tailwind CSS va shadcn/ui ni loyihaga to'liq integratsiya qilish.
+Endi esa, Replit AI uchun navbatdagi topshiriq.
+
+Siz uchun ko'rsatma: Quyidagi ajratilgan blokka yozilgan matnni to'liq ko'chiring (Copy qiling) va uni Replit'dagi AI chatiga joylashtirib, yuboring.
+
+REPLIT AI UCHUN PROMPT (3-BOSQICH - FRONTENDNI QAYTA QURISH)
+Perform the following actions sequentially to completely rebuild the frontend application in the client directory from scratch with a modern tech stack.
+
+Clean the Directory: Delete all existing files and folders inside the client directory to ensure a clean start. Then, navigate into the empty client directory.
+
+Initialize Vite Project: Create a new React + TypeScript project using Vite directly within the client directory. Use a non-interactive command.
+
+Install Dependencies: Install the initial project dependencies.
+
+Integrate Tailwind CSS:
+
+Install tailwindcss, postcss, and autoprefixer as development dependencies.
+
+Generate the tailwind.config.js and postcss.config.js configuration files.
+
+Modify the tailwind.config.js file to correctly scan for template files (React components).
+
+Replace the content of the main CSS file (src/index.css) with the required Tailwind CSS directives (@tailwind base; @tailwind components; @tailwind utilities;).
+
+Initialize shadcn/ui:
+
+Run the shadcn/ui init command non-interactively.
+
+This will create a components.json file.
+
+It will also modify tailwind.config.js and vite.config.ts to set up paths and aliases. Ensure the configuration uses TypeScript, the "Default" style, "Slate" for colors, and places components in src/components.
+
+Final Cleanup and Verification:
+
+Delete the default boilerplate assets from src/assets.
+
+Simplify the src/App.tsx file to a basic "Hello World" message with Tailwind CSS classes to verify the installation. The App component should just display a single div with a large, bold, centered text.
+
+After all steps are done, print the message: "Frontend foundation has been rebuilt successfully with Vite, React, TypeScript, Tailwind CSS, and shadcn/ui. The project is ready for component development."
+
+Bosqich yakunini tekshirish:
+
+Replit AI bu vazifalarni bajarganidan so'ng, client papkasidagi barcha eski fayllar o'chirilgan va o'rniga yangi, toza React loyihasi paydo bo'lgan bo'lishi kerak. tailwind.config.js va components.json kabi yangi konfiguratsiya fayllarini ko'rishingiz kerak.
+
+Agar hammasi joyida bo'lsa, menga xabar bering. Shundan so'ng biz 4-bosqichga — backend va yangi qurilgan frontend'imizni bir-biriga ulashga o'tamiz.
