@@ -1,11 +1,5 @@
-import { neon } from "@neondatabase/serverless";
-import { drizzle } from "drizzle-orm/neon-http";
-import { articles } from "../../shared/schema";
+import { storage } from "../storage";
 import { generateArticle } from "../services/gemini";
-
-// Initialize database connection
-const sql = neon(process.env.DATABASE_URL!);
-const db = drizzle(sql);
 
 // 15 diverse and interesting topics in Uzbek
 const topics = [
@@ -47,19 +41,16 @@ async function main() {
       // Generate article using AI
       const generatedArticle = await generateArticle(topic, category);
       
-      // Insert into database
-      const [savedArticle] = await db.insert(articles).values({
+      // Insert into storage
+      const savedArticle = await storage.createArticle({
         title: generatedArticle.title,
         summary: generatedArticle.summary,
         content: generatedArticle.content,
         category: generatedArticle.category,
         tags: generatedArticle.tags,
         isAiGenerated: true,
-        imageUrl: null,
-        views: Math.floor(Math.random() * 1000),
-        comments: Math.floor(Math.random() * 50),
-        shares: Math.floor(Math.random() * 25)
-      }).returning();
+        imageUrl: null
+      });
       
       console.log(`✅ Successfully generated and saved article: ${savedArticle.title}`);
       
