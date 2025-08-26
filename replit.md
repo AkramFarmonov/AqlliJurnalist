@@ -35,7 +35,7 @@ Preferred communication style: Simple, everyday language.
 ## External Service Integrations
 
 ### AI Services
-- **Primary AI Provider**: Google Gemini 2.5 Flash for article generation and chat responses
+- **Primary AI Provider**: Google Gemini 1.5 Flash for article generation and chat responses
 - **Content Generation**: Automated article creation based on trending topics
 - **Chat Bot**: Real-time AI-powered chat assistance
 

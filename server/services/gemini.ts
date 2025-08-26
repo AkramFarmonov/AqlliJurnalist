@@ -1,6 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 
-// Using Gemini 2.5 Flash for AI-powered news platform
+// Using Gemini 1.5 Flash for AI-powered news platform
 const genAI = new GoogleGenAI({ 
   apiKey: process.env.GEMINI_API_KEY || "default_key"
 });
@@ -18,7 +18,7 @@ export async function generateArticle(topic: string, category: string = "Texnolo
     const prompt = `O'zbek tilida "${topic}" mavzusida yangilik maqolasi yozing. Maqola zamonaviy, ma'lumotli va qiziqarli bo'lishi kerak. JSON formatida javob bering.`;
 
     const response = await genAI.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-1.5-flash",
       config: {
         systemInstruction: `Siz professional jurnalistsiz. O'zbek tilida yangilik maqolalari yozasiz. Javobni JSON formatida bering: {
           "title": "maqola sarlavhasi",
@@ -63,7 +63,7 @@ export async function generateChatResponse(userMessage: string, context?: string
     const systemPrompt = `Siz "Aqlli Jurnalist" platformasining AI yordamchisisiz. O'zbek tilida javob bering. Yangiliklar, trendlar va texnologiya haqida savollar berilganda yordam bering. Javobingiz qisqa va aniq bo'lsin.`;
 
     const response = await genAI.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-1.5-flash",
       config: {
         systemInstruction: systemPrompt + (context ? `\n\nKontekst: ${context}` : ""),
         maxOutputTokens: 300,
@@ -83,7 +83,7 @@ export async function analyzeTrends(articles: any[]): Promise<{ topic: string; r
     const articlesText = articles.map(a => `${a.title} ${a.summary}`).join("\n");
     
     const response = await genAI.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-1.5-flash",
       config: {
         systemInstruction: `Berilgan maqolalar asosida eng muhim trendlarni aniqlang. JSON formatida javob bering: {
           "trends": [
