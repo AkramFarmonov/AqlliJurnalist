@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/news/hero-section";
+import { BreakingNewsTicker } from "@/components/news/breaking-news-ticker";
 import { CategoryFilters } from "@/components/news/category-filters";
 import { ArticleCard } from "@/components/news/article-card";
 import { AiChat } from "@/components/sidebar/ai-chat";
@@ -52,20 +53,22 @@ export default function Home() {
           <main className="lg:col-span-8">
             <HeroSection />
             
+            <BreakingNewsTicker />
+            
             <CategoryFilters 
               categories={categories}
               selectedCategory={selectedCategory}
               onCategoryChange={setSelectedCategory}
             />
 
-            <section className="space-y-6" data-testid="articles-section">
+            <section className="mt-8" data-testid="articles-section">
               {isLoading ? (
-                <div className="space-y-6">
-                  {[...Array(3)].map((_, i) => (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {[...Array(6)].map((_, i) => (
                     <div key={i} className="bg-card border border-border rounded-xl p-6 animate-pulse">
-                      <div className="flex items-start space-x-4">
-                        <div className="w-24 h-24 bg-muted rounded-lg flex-shrink-0"></div>
-                        <div className="flex-1 space-y-2">
+                      <div className="space-y-4">
+                        <div className="w-full h-48 bg-muted rounded-lg"></div>
+                        <div className="space-y-2">
                           <div className="h-4 bg-muted rounded w-3/4"></div>
                           <div className="h-4 bg-muted rounded w-1/2"></div>
                           <div className="h-16 bg-muted rounded"></div>
@@ -79,9 +82,11 @@ export default function Home() {
                   <p className="text-muted-foreground">Hech qanday maqola topilmadi.</p>
                 </div>
               ) : (
-                filteredArticles.map((article) => (
-                  <ArticleCard key={article.id} article={article} />
-                ))
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {filteredArticles.map((article) => (
+                    <ArticleCard key={article.id} article={article} />
+                  ))}
+                </div>
               )}
             </section>
 

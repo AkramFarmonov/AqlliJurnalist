@@ -45,7 +45,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
               >
                 {article.category}
               </Badge>
-              <span className="text-muted-foreground text-sm" data-testid={`article-time-${article.id}`}>
+              <span className="text-muted-foreground text-xs font-medium" data-testid={`article-time-${article.id}`}>
                 {timeAgo}
               </span>
               {article.isAiGenerated && (
@@ -59,7 +59,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
             </div>
             
             <h3 
-              className="text-lg font-semibold text-foreground mb-2 hover:text-primary cursor-pointer" 
+              className="text-xl font-bold text-foreground mb-2 hover:text-primary cursor-pointer transition-colors" 
               data-testid={`article-title-${article.id}`}
             >
               {article.title}
@@ -73,18 +73,21 @@ export function ArticleCard({ article }: ArticleCardProps) {
             </p>
             
             <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                <span className="flex items-center space-x-1" data-testid={`article-views-${article.id}`}>
-                  <Eye className="w-4 h-4" />
-                  <span>{article.views}</span>
+              <div className="flex items-center space-x-6 text-sm text-muted-foreground">
+                <span className="flex items-center space-x-2 hover:text-primary transition-colors cursor-pointer" data-testid={`article-views-${article.id}`}>
+                  <Eye className="w-5 h-5" />
+                  <span className="font-medium">{article.views}</span>
+                  <span className="text-xs">ko'rishlar</span>
                 </span>
-                <span className="flex items-center space-x-1" data-testid={`article-comments-${article.id}`}>
-                  <MessageCircle className="w-4 h-4" />
-                  <span>{article.comments}</span>
+                <span className="flex items-center space-x-2 hover:text-primary transition-colors cursor-pointer" data-testid={`article-comments-${article.id}`}>
+                  <MessageCircle className="w-5 h-5" />
+                  <span className="font-medium">{article.comments}</span>
+                  <span className="text-xs">fikrlar</span>
                 </span>
-                <span className="flex items-center space-x-1" data-testid={`article-shares-${article.id}`}>
-                  <Share2 className="w-4 h-4" />
-                  <span>{article.shares}</span>
+                <span className="flex items-center space-x-2 hover:text-primary transition-colors cursor-pointer" data-testid={`article-shares-${article.id}`}>
+                  <Share2 className="w-5 h-5" />
+                  <span className="font-medium">{article.shares}</span>
+                  <span className="text-xs">ulashish</span>
                 </span>
               </div>
               

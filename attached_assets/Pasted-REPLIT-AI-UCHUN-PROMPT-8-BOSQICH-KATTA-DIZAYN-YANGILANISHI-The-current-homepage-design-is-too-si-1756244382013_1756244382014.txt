@@ -1,0 +1,43 @@
+REPLIT AI UCHUN PROMPT (8-BOSQICH - KATTA DIZAYN YANGILANISHI)
+The current homepage design is too simple. Your task is to overhaul the UI to make it look and feel like a dynamic, professional news portal, similar to major news websites. Perform the following three major changes.
+
+Implement a CSS Grid Layout for Articles:
+
+In the client/src/pages/home.tsx file, locate the section where the list of articles is rendered.
+
+Replace the current single-column layout with a responsive multi-column CSS Grid.
+
+The grid should have 3 columns on desktop screens (lg breakpoints and up).
+
+It should adapt to 2 columns on tablet-sized screens (md breakpoints).
+
+It should be a single column on mobile screens (sm breakpoints).
+
+Ensure there is a consistent gap between grid items (e.g., gap-4 or gap-6).
+
+Enhance the ArticleCard Component:
+
+Open the client/src/components/news/article-card.tsx file.
+
+Typography: Increase the font size and font weight of the article title to make it more prominent and attention-grabbing (e.g., text-xl font-bold).
+
+Metadata: Make the metadata line (category and timestamp) more distinct. You can use a smaller font size and a secondary text color (e.g., text-sm text-muted-foreground).
+
+Interaction Icons: The views/comments/shares icons at the bottom of the card are currently too small. Increase their size and add a small label or use more visually distinct icons from the lucide-react library.
+
+Create and Add a "Breaking News" Ticker:
+
+Create a new component file at client/src/components/news/breaking-news-ticker.tsx.
+
+Inside this component, use useQuery to fetch the 3 most recent articles from the API.
+
+The component should render a container with a distinct background color (e.g., bg-red-600 or dark:bg-zinc-800).
+
+Inside the container, display a static "So'nggi Yangiliklar:" label.
+
+Next to the label, display the titles of the 3 fetched articles, ideally in a looping horizontal scroll or carousel effect.
+
+Finally, import and place this new <BreakingNewsTicker /> component into the home.tsx page, right below the main hero section and above the category filters.
+
+After implementing all three changes, confirm by stating: "Homepage UI has been overhauled with a dynamic grid layout, enhanced article cards, and a new breaking news ticker."
+Ushbu keng qamrovli yangilanish loyihamizga haqiqiy professional yangiliklar portali ko'rinishini beradi. Agar bu yondashuv ma'qul bo'lsa, AI'ga yuqoridagi topshiriqni yuboring va natijani birgalikda ko'ramiz.
