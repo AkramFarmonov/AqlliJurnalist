@@ -51,21 +51,87 @@ export class MemStorage implements IStorage {
     };
 
     // Initialize with some sample data
-    this.initializeData();
+    this.initializeData().catch(console.error);
   }
 
-  private initializeData() {
+  private async initializeData() {
     // Sample trends
-    this.createTrend({ topic: "#AI_Uzbekistan", posts: 1200, changePercent: 15 });
-    this.createTrend({ topic: "#Blockchain", posts: 890, changePercent: 8 });
-    this.createTrend({ topic: "#ITpark", posts: 654, changePercent: -2 });
-    this.createTrend({ topic: "#Startup", posts: 432, changePercent: 12 });
+    await this.createTrend({ topic: "#AI_Uzbekistan", posts: 1200, changePercent: 15 });
+    await this.createTrend({ topic: "#Blockchain", posts: 890, changePercent: 8 });
+    await this.createTrend({ topic: "#ITpark", posts: 654, changePercent: -2 });
+    await this.createTrend({ topic: "#Startup", posts: 432, changePercent: 12 });
 
     // Sample chat message
-    this.createChatMessage({
+    await this.createChatMessage({
       message: "Salom! Men sizga yangiliklar va trendlar haqida savollarga javob beraman. Nimani bilmoqchisiz?",
       isBot: true,
     });
+
+    // If no articles exist, populate with AI-generated content
+    if (this.articles.size === 0) {
+      await this.seedArticles();
+    }
+  }
+
+  private async seedArticles() {
+    const { generateArticle } = await import("./services/gemini");
+    
+    const topics = [
+      "Kvant kompyuterlarining kelajagi",
+      "Toshkentda elektromobillar infratuzilmasi", 
+      "O'zbekistonning IT eksport salohiyati",
+      "Marsni o'zlashtirish missiyalari",
+      "Blokcheyn texnologiyasi va uning qo'llanilishi",
+      "Startap ekotizimini rivojlantirish",
+      "Kibertxavfsizlikning zamonaviy tahdidlari",
+      "Bulutli texnologiyalar biznes uchun",
+      "Mobil ilovalar bozori trendlari",
+      "Raqamli marketingdagi yangi vositalar",
+      "O'zbekiston raqamli iqtisodiyoti",
+      "Sun'iy intellekt va ta'lim tizimi",
+      "IoT texnologiyalari qishloq xo'jaligida",
+      "5G tarmoqlari va ularning imkoniyatlari",
+      "Virtual va kengaytirilgan reallik dasturlari"
+    ];
+
+    const categories = [
+      "Texnologiya", "Transport", "IT va Biznes", "Kosmik fanlar", 
+      "Blokcheyn", "Startap", "Kibertxavfsizlik", "Bulutli xizmatlar",
+      "Mobil texnologiyalar", "Marketing", "Raqamli iqtisodiyot", "Ta'lim",
+      "Qishloq xo'jaligi", "Aloqa texnologiyalari", "Virtual reallik"
+    ];
+
+    console.log("🚀 Initializing storage with AI-generated articles...");
+    
+    for (let i = 0; i < topics.length; i++) {
+      try {
+        const topic = topics[i];
+        const category = categories[i];
+        
+        console.log(`📝 Generating article ${i + 1}/15: "${topic}"`);
+        
+        const generatedArticle = await generateArticle(topic, category);
+        
+        await this.createArticle({
+          title: generatedArticle.title,
+          summary: generatedArticle.summary,
+          content: generatedArticle.content,
+          category: generatedArticle.category,
+          tags: generatedArticle.tags,
+          isAiGenerated: true,
+          imageUrl: null
+        });
+        
+        console.log(`✅ Article created: ${generatedArticle.title}`);
+        
+        // Small delay to avoid rate limiting
+        await new Promise(resolve => setTimeout(resolve, 100));
+      } catch (error) {
+        console.error(`❌ Failed to generate article ${i + 1}:`, error);
+      }
+    }
+    
+    console.log(`🎉 Storage initialized with ${this.articles.size} articles!`);
   }
 
   // Users
