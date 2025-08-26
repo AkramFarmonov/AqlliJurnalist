@@ -1,0 +1,149 @@
+Ajoyib, ikkinchi bosqichga o'tamiz\!
+
+Bu bosqichda biz loyihamizning "miyasi" bo'ladigan backend qismining poydevorini quramiz. Biz Express.js yordamida server yaratamiz, TypeScript'ni sozlaymiz va Drizzle ORM orqali ma'lumotlar bazamizning tuzilishini (sxemasini) aniqlab olamiz. Bu keyingi bosqichlarda AI logikasini va boshqa funksiyalarni qurish uchun zamin yaratadi.
+
+Avvalo, keling, `prompt.md` faylimizni yangi bosqichga tayyorlaymiz. Bosqich yakunlangandan so'ng, faylning ichidagilarni quyidagicha o'zgartirasiz:
+
+```markdown
+# LOYIHA: "AQLLI JURNALIST"
+
+## ASOSIY MAQSAD
+AI yordamida trendlarni aniqlaydigan, unikal maqolalar yaratadigan va foydalanuvchilar bilan interaktiv muloqot qiladigan aqlli yangiliklar platformasi.
+
+---
+
+### HOZIRGI BOSQICH
+**2-Bosqich:** Backend Asoslari (Server, TypeScript, Ma'lumotlar bazasi sxemasi).
+
+### BAJARILGAN ISHLAR
+- **1-Bosqich yakunlandi:** Loyiha tuzilmasi va workspace sozlandi.
+
+### KEYINGI QADAM
+- `server` papkasida Node.js loyihasini yaratish.
+- TypeScript, Express, Drizzle ORM kabi asosiy kutubxonalarni o'rnatish.
+- Ma'lumotlar bazasi uchun `categories`, `articles` va `users` jadvallarining sxemasini Drizzle yordamida aniqlash.
+- Dastlabki Express serverini ishga tushirish uchun kod yozish.
+```
+
+-----
+
+Endi esa, Replit AI uchun navbatdagi topshiriq.
+
+**Siz uchun ko'rsatma:** Quyidagi ajratilgan blokka yozilgan matnni to'liq ko'chiring (`Copy` qiling) va uni Replit'dagi AI chatiga joylashtirib, yuboring.
+
+-----
+
+### **REPLIT AI UCHUN PROMPT (2-BOSQICH)**
+
+Perform the following actions sequentially inside the `server` directory to set up the backend foundation.
+
+1.  Navigate into the `server` directory.
+
+2.  Initialize a Node.js project and install necessary production dependencies: `express`, `dotenv`, `drizzle-orm`, and `postgres`.
+
+3.  Install necessary development dependencies: `typescript`, `@types/express`, `@types/node`, `tsx`, and `drizzle-kit`.
+
+4.  Create a `tsconfig.json` file at the root of the `server` directory with the following content for TypeScript configuration:
+
+    ```json
+    {
+      "compilerOptions": {
+        "target": "es2020",
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "outDir": "./dist"
+      },
+      "include": ["src/**/*.ts"],
+      "exclude": ["node_modules"]
+    }
+    ```
+
+5.  Create a `drizzle.config.ts` file for database schema management with the following content.
+
+    ```typescript
+    import type { Config } from 'drizzle-kit';
+    import 'dotenv/config';
+
+    export default {
+      schema: './src/db/schema.ts',
+      out: './drizzle',
+      driver: 'pg',
+      dbCredentials: {
+        connectionString: process.env.DATABASE_URL!,
+      }
+    } satisfies Config;
+    ```
+
+6.  Create the source code directory `src` and a subdirectory `db` inside it.
+
+7.  Create the main database schema file at `src/db/schema.ts` and populate it with tables for users, categories, and articles:
+
+    ```typescript
+    import { pgTable, serial, text, varchar, timestamp, integer, boolean } from 'drizzle-orm/pg-core';
+
+    export const users = pgTable('users', {
+      id: serial('id').primaryKey(),
+      username: varchar('username', { length: 256 }).unique().notNull(),
+      passwordHash: text('password_hash').notNull(),
+      role: varchar('role', { length: 50 }).default('admin').notNull(),
+    });
+
+    export const categories = pgTable('categories', {
+      id: serial('id').primaryKey(),
+      name: varchar('name', { length: 256 }).unique().notNull(),
+      slug: varchar('slug', { length: 256 }).unique().notNull(),
+    });
+
+    export const articles = pgTable('articles', {
+      id: serial('id').primaryKey(),
+      title: varchar('title', { length: 512 }).notNull(),
+      content: text('content').notNull(),
+      imageUrl: text('image_url'),
+      categoryId: integer('category_id').references(() => categories.id),
+      publishedAt: timestamp('published_at').defaultNow().notNull(),
+      views: integer('views').default(0),
+      likes: integer('likes').default(0),
+      commentCount: integer('comment_count').default(0),
+      isAiGenerated: boolean('is_ai_generated').default(true),
+    });
+    ```
+
+8.  Create the main server entry point at `src/index.ts` with a basic Express server setup:
+
+    ```typescript
+    import express from 'express';
+    import 'dotenv/config';
+
+    const app = express();
+    const port = process.env.PORT || 3000;
+
+    app.get('/', (req, res) => {
+      res.send('Aqlli Jurnalist Backend is running!');
+    });
+
+    app.listen(port, () => {
+      console.log(`Server is listening on port ${port}`);
+    });
+    ```
+
+9.  Finally, modify the `server/package.json` file to add a `dev` script for running the server with `tsx`. The final `scripts` section should look like this:
+
+    ```json
+    "scripts": {
+      "dev": "tsx src/index.ts",
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    ```
+
+10. After all steps are done, confirm completion by printing the message "Backend foundation setup is complete."
+
+-----
+
+**Bosqich yakunini tekshirish:**
+
+Replit AI "Backend foundation setup is complete." xabarini chiqargandan so'ng, `server` papkasining ichida `src`, `drizzle.config.ts`, `tsconfig.json` kabi fayl va papkalar paydo bo'lganini tekshiring.
+
+Agar hammasi joyida bo'lsa, demak ikkinchi bosqich muvaffaqiyatli yakunlandi. Menga xabar bering va biz uchinchi bosqichga o'tamiz.
