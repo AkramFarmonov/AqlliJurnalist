@@ -7,9 +7,10 @@ import { formatDistanceToNow } from "date-fns";
 
 interface ArticleCardProps {
   article: Article;
+  isFeatured?: boolean;
 }
 
-export function ArticleCard({ article }: ArticleCardProps) {
+export function ArticleCard({ article, isFeatured = false }: ArticleCardProps) {
   const timeAgo = formatDistanceToNow(new Date(article.publishedAt), { addSuffix: true });
 
   const getCategoryColor = (category: string) => {
@@ -26,12 +27,12 @@ export function ArticleCard({ article }: ArticleCardProps) {
   return (
     <Card className="news-card shadow-sm hover:shadow-md transition-all duration-200" data-testid={`article-card-${article.id}`}>
       <CardContent className="p-6">
-        <article className="flex items-start space-x-4">
+        <article className={isFeatured ? "space-y-4" : "flex items-start space-x-4"}>
           {article.imageUrl && (
             <img 
               src={article.imageUrl} 
               alt={article.title}
-              className="w-24 h-24 rounded-lg object-cover flex-shrink-0"
+              className={isFeatured ? "w-full h-64 rounded-lg object-cover" : "w-24 h-24 rounded-lg object-cover flex-shrink-0"}
               data-testid={`article-image-${article.id}`}
             />
           )}
@@ -59,14 +60,14 @@ export function ArticleCard({ article }: ArticleCardProps) {
             </div>
             
             <h3 
-              className="text-xl font-bold text-foreground mb-2 hover:text-primary cursor-pointer transition-colors" 
+              className={`${isFeatured ? 'text-3xl' : 'text-xl'} font-bold text-foreground mb-2 hover:text-primary cursor-pointer transition-colors`}
               data-testid={`article-title-${article.id}`}
             >
               {article.title}
             </h3>
             
             <p 
-              className="text-muted-foreground text-sm mb-3" 
+              className={`text-muted-foreground ${isFeatured ? 'text-base' : 'text-sm'} mb-3`}
               data-testid={`article-summary-${article.id}`}
             >
               {article.summary}

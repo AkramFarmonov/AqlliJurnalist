@@ -83,8 +83,16 @@ export default function Home() {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredArticles.map((article) => (
-                    <ArticleCard key={article.id} article={article} />
+                  {filteredArticles.map((article, index) => (
+                    <div 
+                      key={article.id}
+                      className={index === 0 ? "md:col-span-2 lg:col-span-2" : "col-span-1"}
+                    >
+                      <ArticleCard 
+                        article={article} 
+                        isFeatured={index === 0}
+                      />
+                    </div>
                   ))}
                 </div>
               )}
