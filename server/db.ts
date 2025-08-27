@@ -2,7 +2,8 @@ import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
 import { eq, desc, ilike, or } from "drizzle-orm";
 import { articles, trends, chatMessages, analytics, users } from "../shared/schema";
-import type { IStorage, User, InsertUser, Article, InsertArticle, Trend, InsertTrend, ChatMessage, InsertChatMessage, Analytics, InsertAnalytics } from "./storage";
+import type { IStorage } from "./storage";
+import type { User, InsertUser, Article, InsertArticle, Trend, InsertTrend, ChatMessage, InsertChatMessage, Analytics, InsertAnalytics } from "@shared/schema";
 import { randomUUID } from "crypto";
 
 const sql = neon(process.env.DATABASE_URL!);
@@ -74,7 +75,8 @@ export class DatabaseStorage implements IStorage {
     let query = db.select().from(articles);
     
     if (category && category !== "Hammasi") {
-      query = query.where(eq(articles.category, category));
+      const result = await query.where(eq(articles.category, category)).orderBy(desc(articles.publishedAt)).limit(limit);
+      return result;
     }
     
     const result = await query.orderBy(desc(articles.publishedAt)).limit(limit);
@@ -94,7 +96,8 @@ export class DatabaseStorage implements IStorage {
   async updateArticleStats(id: string, field: 'views' | 'comments' | 'shares'): Promise<void> {
     const article = await this.getArticle(id);
     if (article) {
-      const updateData = { [field]: article[field] + 1 };
+      const currentValue = article[field] || 0;
+      const updateData = { [field]: currentValue + 1 };
       await db.update(articles).set(updateData).where(eq(articles.id, id));
     }
   }
