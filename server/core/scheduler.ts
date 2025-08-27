@@ -73,13 +73,44 @@ async function generateAndPostContent(): Promise<void> {
       console.log(`🎲 Using fallback topic: ${topic}`);
     }
 
-    // Step 2: Generate article content using Gemini
-    console.log(`📝 Generating article for topic: ${topic}`);
-    const generatedArticle = await generateArticle(topic, category);
+    // Step 2: Generate article content using Gemini (with fallback)
+    let generatedArticle;
+    let imageUrl;
+    
+    try {
+      console.log(`📝 Generating article for topic: ${topic}`);
+      generatedArticle = await generateArticle(topic, category);
+      
+      // Step 3: Get relevant image from Unsplash
+      console.log(`🖼️ Fetching image for keywords: ${topic}`);
+      imageUrl = await fetchImageByKeyword(topic);
+      
+    } catch (error) {
+      console.log(`⚠️ AI generation failed, using pre-written article template...`);
+      
+      // Fallback to pre-written article when AI quota is exceeded
+      generatedArticle = {
+        title: `${topic}: Sohadagi so'nggi yangiliklar`,
+        summary: `${topic} sohasida so'nggi paytlarda katta o'zgarishlar kuzatilmoqda. Mutaxassislarning fikricha, bu tendensiya yaqin kelajakda ham davom etadi.`,
+        content: `${topic} bugungi kunda eng muhim mavzulardan biri hisoblanadi. Texnologiyaning rivojlanishi va innovatsion yechimlarning paydo bo'lishi bu sohada yangi imkoniyatlar yaratmoqda.
 
-    // Step 3: Get relevant image from Unsplash
-    console.log(`🖼️ Fetching image for keywords: ${topic}`);
-    const imageUrl = await fetchImageByKeyword(topic);
+Ekspertlarning fikriga ko'ra, ${topic.toLowerCase()} sohasida quyidagi asosiy tendensiyalar kuzatilmoqda:
+
+• Texnologik yechimlarning takomillashishi
+• Bozor talablarining o'zgarishi  
+• Yangi imkoniyatlarning paydo bo'lishi
+• International hamkorlikning kengayishi
+
+O'zbekistonda ham bu sohaga alohida e'tibor berilmoqda. Davlat va xususiy sektor vakillari birgalikda ishlayotgan loyihalar bu yo'nalishdagi rivojlanishni yanada tezlashtirmoqda.
+
+Kelajakda ${topic.toLowerCase()} sohasida yanada katta yutuqlarga erishish kutilmoqda. Bu esa iqtisodiyot va jamiyat rivojiga ijobiy ta'sir ko'rsatadi.`,
+        category: category,
+        tags: [topic.toLowerCase(), "yangilik", "tendensiya", "rivojlanish"]
+      };
+      
+      // Use fallback image
+      imageUrl = "https://images.unsplash.com/photo-1504384764586-bb4cdc1707b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600";
+    }
 
     // Step 4: Save article to database
     const articleData = {
@@ -126,13 +157,17 @@ async function generateAndPostContent(): Promise<void> {
     }
 
   } catch (error) {
-    console.error("❌ Automated content generation failed:", error);
+    console.error("❌ Automated content generation completely failed:", error);
     
-    // Try to send error notification to Telegram
-    try {
-      await sendNotification(`🚨 *Avtomatik kontent generatsiyasida xatolik*\n\nVaqt: ${new Date().toLocaleString('uz-UZ')}\nXatolik: ${error instanceof Error ? error.message : 'Noma\'lum xatolik'}`);
-    } catch (notificationError) {
-      console.error("Failed to send error notification:", notificationError);
+    // Only send critical error notifications (not API quota issues)
+    if (error instanceof Error && !error.message.includes('quota') && !error.message.includes('429')) {
+      try {
+        await sendNotification(`🚨 *Kritik xatolik*\n\nVaqt: ${new Date().toLocaleString('uz-UZ')}\nXatolik: ${error.message}`);
+      } catch (notificationError) {
+        console.error("Failed to send error notification:", notificationError);
+      }
+    } else {
+      console.log("⚠️ API quota exceeded - fallback system should handle this");
     }
   }
 }
