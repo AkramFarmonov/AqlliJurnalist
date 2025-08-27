@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Brain, Search, Menu } from "lucide-react";
+import { Brain, Search, Menu, Download } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { usePWAInstall } from "@/hooks/use-pwa-install";
 
 interface NavbarProps {
   onSearch: (query: string) => void;
@@ -14,6 +15,7 @@ export function Navbar({ onSearch }: NavbarProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [location] = useLocation();
+  const { isInstallable, installApp } = usePWAInstall();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -84,6 +86,20 @@ export function Navbar({ onSearch }: NavbarProps) {
               />
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
             </form>
+            
+            {/* PWA Install Button */}
+            {isInstallable && (
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={installApp}
+                className="hidden sm:flex items-center gap-2"
+                data-testid="button-install-pwa"
+              >
+                <Download className="h-4 w-4" />
+                O'rnatish
+              </Button>
+            )}
             
             {/* Mobile Search Button */}
             <Button 

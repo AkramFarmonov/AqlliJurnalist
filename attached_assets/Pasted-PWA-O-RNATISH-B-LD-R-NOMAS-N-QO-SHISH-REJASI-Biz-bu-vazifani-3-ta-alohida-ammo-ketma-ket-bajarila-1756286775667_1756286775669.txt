@@ -1,0 +1,73 @@
+PWA O'RNATISH BİLDİRİŞNOMASİNİ QO'SHISH REJASI
+Biz bu vazifani 3 ta alohida, ammo ketma-ket bajariladigan bosqichga bo'lamiz:
+
+1-Bosqich: PWA Poydevorini Sozlash. Ilovamizning "pasporti" bo'lgan manifest faylini va oflayn ishlashini ta'minlaydigan Service Worker'ni sozlaymiz.
+
+2-Bosqich: O'rnatish Mantig'ini Yaratish. Brauzer ilovani o'rnatishga ruxsat berganini "eshitadigan" va bu holatni boshqaradigan maxsus React hook'ini yaratamiz.
+
+3-Bosqich: Foydalanuvchi Interfeysini (UI) Qo'shish. Foydalanuvchiga ko'rinadigan "Ilovani o'rnatish" tugmasini yoki bildirishnomasini yaratamiz.
+
+1-BOSQICH UCHUN TOPSHIRIQ
+Keling, birinchi qadamdan boshlaymiz. Buning uchun eng ishonchli va zamonaviy yechim vite-plugin-pwa kutubxonasidan foydalanishdir. Bu biz uchun barcha kerakli fayllarni avtomatik generatsiya qiladi.
+
+Siz uchun ko'rsatma: Quyidagi topshiriqni Replit AI'ga bering.
+
+REPLIT AI UCHUN PROMPT (1-QADAM: PWA POYDEVORINI SOZLASH)
+We need to add Progressive Web App (PWA) capabilities to our project, specifically the "Add to Home Screen" installation feature. The first step is to set up the foundation using the vite-plugin-pwa library.
+
+Install the Dependency: In the client directory, install the necessary package as a development dependency:
+
+Bash
+
+npm install vite-plugin-pwa -D
+Configure Vite: Open the client/vite.config.ts file.
+
+Import the plugin: import { VitePWA } from 'vite-plugin-pwa'.
+
+Add the plugin to the plugins array in your Vite configuration.
+
+Configure the plugin with a manifest object that defines the application's identity.
+
+The final plugins array should look similar to this:
+
+TypeScript
+
+plugins: [
+  react(),
+  VitePWA({
+    registerType: 'autoUpdate',
+    includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
+    manifest: {
+      name: 'Aqlli Jurnalist',
+      short_name: 'Aqlli AI',
+      description: 'Sun\'iy intellekt yordamida yaratilgan so\'nggi yangiliklar va trendlar.',
+      theme_color: '#ffffff',
+      background_color: '#ffffff',
+      display: 'standalone',
+      scope: '/',
+      start_url: '/',
+      icons: [
+        {
+          src: 'pwa-192x192.png',
+          sizes: '192x192',
+          type: 'image/png',
+        },
+        {
+          src: 'pwa-512x512.png',
+          sizes: '512x512',
+          type: 'image/png',
+        },
+        {
+          src: 'pwa-512x512.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'any maskable',
+        }
+      ]
+    }
+  })
+]
+Add Icons: Inform the user that they need to add the specified icon files (pwa-192x192.png and pwa-512x512.png) to the client/public directory for the manifest to work correctly.
+
+After completing these steps, confirm with the message: "PWA foundation is now configured. The vite-plugin-pwa has been installed and set up. The manifest and service worker will be automatically generated. The user needs to add the required app icons to the client/public directory."
+Birinchi bosqichni tugatganimizdan so'ng, ikkinchi bosqich — o'rnatish mantig'ini yaratishga o'tamiz. Natijani kutyapman!
