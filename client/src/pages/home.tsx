@@ -7,7 +7,7 @@ import { ArticleCard } from "@/components/news/article-card";
 import { AiChat } from "@/components/sidebar/ai-chat";
 import { TrendingTopics } from "@/components/sidebar/trending-topics";
 import { AnalyticsDashboard } from "@/components/sidebar/analytics-dashboard";
-import { QuickActions } from "@/components/sidebar/quick-actions";
+
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
@@ -153,7 +153,7 @@ export default function Home() {
             <AiChat />
             <TrendingTopics />
             <AnalyticsDashboard />
-            <QuickActions />
+
           </aside>
         </div>
       </div>

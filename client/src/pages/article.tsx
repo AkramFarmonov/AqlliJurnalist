@@ -1,6 +1,7 @@
 import { useRoute } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, Eye, MessageCircle, Share2, Calendar, Bot } from "lucide-react";
+import { SimilarArticles } from "@/components/news/similar-articles";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Navbar } from "@/components/layout/navbar";
@@ -241,6 +242,14 @@ export default function ArticlePage() {
           </div>
         )}
       </article>
+
+      {/* Similar Articles Section */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+        <SimilarArticles 
+          currentArticleId={article.id}
+          category={article.category}
+        />
+      </div>
 
       <Footer />
     </div>
