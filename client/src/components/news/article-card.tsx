@@ -38,8 +38,8 @@ export function ArticleCard({ article, isFeatured = false }: ArticleCardProps) {
   };
 
   return (
-    <Card className="news-card shadow-sm hover:shadow-md transition-all duration-200 h-full" data-testid={`article-card-${article.id}`}>
-      <CardContent className="p-6 h-full flex flex-col">
+    <Card className="news-card shadow-sm hover:shadow-md transition-all duration-200 h-full overflow-hidden" data-testid={`article-card-${article.id}`}>
+      <CardContent className="p-4 h-full flex flex-col">
         {article.imageUrl && (
           <img 
             src={article.imageUrl} 
@@ -88,28 +88,32 @@ export function ArticleCard({ article, isFeatured = false }: ArticleCardProps) {
           </p>
         </div>
         
-        <div className="mt-auto pt-3 border-t border-border space-y-3">
-          <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-            <span className="flex items-center space-x-1 hover:text-primary transition-colors cursor-pointer" data-testid={`article-views-${article.id}`}>
-              <Eye className="w-4 h-4" />
-              <span className="font-medium">{article.views}</span>
-            </span>
-            <span className="flex items-center space-x-1 hover:text-primary transition-colors cursor-pointer" data-testid={`article-comments-${article.id}`}>
-              <MessageCircle className="w-4 h-4" />
-              <span className="font-medium">{article.comments}</span>
-            </span>
-            <span className="flex items-center space-x-1 hover:text-primary transition-colors cursor-pointer" data-testid={`article-shares-${article.id}`}>
-              <Share2 className="w-4 h-4" />
-              <span className="font-medium">{article.shares}</span>
-            </span>
+        <div className="mt-auto pt-3 border-t border-border">
+          {/* Stats row */}
+          <div className="flex items-center justify-between text-sm text-muted-foreground mb-3">
+            <div className="flex items-center space-x-3">
+              <span className="flex items-center space-x-1 hover:text-primary transition-colors cursor-pointer" data-testid={`article-views-${article.id}`}>
+                <Eye className="w-3 h-3" />
+                <span className="text-xs">{article.views}</span>
+              </span>
+              <span className="flex items-center space-x-1 hover:text-primary transition-colors cursor-pointer" data-testid={`article-comments-${article.id}`}>
+                <MessageCircle className="w-3 h-3" />
+                <span className="text-xs">{article.comments}</span>
+              </span>
+              <span className="flex items-center space-x-1 hover:text-primary transition-colors cursor-pointer" data-testid={`article-shares-${article.id}`}>
+                <Share2 className="w-3 h-3" />
+                <span className="text-xs">{article.shares}</span>
+              </span>
+            </div>
           </div>
           
-          <div className="flex justify-end">
-            <Link href={`/article/${article.id}`}>
+          {/* Button row */}
+          <div className="w-full">
+            <Link href={`/article/${article.id}`} className="block w-full">
               <Button 
                 variant="ghost" 
                 size="sm"
-                className="text-primary hover:bg-primary/10 font-medium"
+                className="w-full text-primary hover:bg-primary/10 font-medium text-sm justify-center"
                 data-testid={`button-read-article-${article.id}`}
               >
                 Davomini o'qish →
