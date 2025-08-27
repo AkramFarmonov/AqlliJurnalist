@@ -25,9 +25,9 @@ export function ArticleCard({ article, isFeatured = false }: ArticleCardProps) {
   };
 
   return (
-    <Card className="news-card shadow-sm hover:shadow-md transition-all duration-200" data-testid={`article-card-${article.id}`}>
-      <CardContent className="p-6">
-        <article className={isFeatured ? "space-y-4" : "flex items-start space-x-4"}>
+    <Card className="news-card shadow-sm hover:shadow-md transition-all duration-200 flex flex-col h-full" data-testid={`article-card-${article.id}`}>
+      <CardContent className="p-6 flex flex-col flex-1">
+        <article className={isFeatured ? "flex flex-col space-y-4 flex-1" : "flex items-start space-x-4 flex-1"}>
           {article.imageUrl && (
             <img 
               src={article.imageUrl} 
@@ -37,7 +37,7 @@ export function ArticleCard({ article, isFeatured = false }: ArticleCardProps) {
             />
           )}
           
-          <div className="flex-1">
+          <div className="flex-1 flex flex-col">
             <div className="flex items-center space-x-2 mb-2">
               <Badge 
                 variant="secondary" 
@@ -59,21 +59,23 @@ export function ArticleCard({ article, isFeatured = false }: ArticleCardProps) {
               )}
             </div>
             
-            <h3 
-              className={`${isFeatured ? 'text-3xl' : 'text-xl'} font-bold text-foreground mb-2 hover:text-primary cursor-pointer transition-colors`}
-              data-testid={`article-title-${article.id}`}
-            >
-              {article.title}
-            </h3>
+            <div className="flex-1 flex flex-col">
+              <h3 
+                className={`${isFeatured ? 'text-3xl' : 'text-xl'} font-bold text-foreground mb-2 hover:text-primary cursor-pointer transition-colors`}
+                data-testid={`article-title-${article.id}`}
+              >
+                {article.title}
+              </h3>
+              
+              <p 
+                className={`text-muted-foreground ${isFeatured ? 'text-base' : 'text-sm'} mb-3 flex-1`}
+                data-testid={`article-summary-${article.id}`}
+              >
+                {article.summary}
+              </p>
+            </div>
             
-            <p 
-              className={`text-muted-foreground ${isFeatured ? 'text-base' : 'text-sm'} mb-3`}
-              data-testid={`article-summary-${article.id}`}
-            >
-              {article.summary}
-            </p>
-            
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mt-auto">
               <div className="flex items-center space-x-6 text-sm text-muted-foreground">
                 <span className="flex items-center space-x-2 hover:text-primary transition-colors cursor-pointer" data-testid={`article-views-${article.id}`}>
                   <Eye className="w-5 h-5" />
