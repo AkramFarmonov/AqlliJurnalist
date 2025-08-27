@@ -39,22 +39,24 @@ export function ArticleCard({ article, isFeatured = false }: ArticleCardProps) {
 
   return (
     <Card className="news-card shadow-sm hover:shadow-md transition-all duration-200 h-full overflow-hidden" data-testid={`article-card-${article.id}`}>
-      <CardContent className="p-4 h-full flex flex-col">
+      <CardContent className={`h-full flex flex-col ${isFeatured ? 'p-0' : 'p-4'}`}>
         {article.imageUrl && (
-          <div className={`relative ${isFeatured ? "mb-4" : "mb-3"}`}>
+          <div className={`relative overflow-hidden ${isFeatured ? "mb-0" : "mb-3"} ${isFeatured ? "rounded-t-lg" : "rounded-lg"}`}>
             <img 
               src={article.imageUrl} 
               alt={article.title}
               className={
                 isFeatured 
-                  ? "w-full h-48 sm:h-56 md:h-64 lg:h-72 rounded-lg object-cover" 
-                  : "w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-lg object-cover"
+                  ? "w-full h-48 sm:h-56 md:h-64 lg:h-72 object-cover hover:scale-105 transition-transform duration-300" 
+                  : "w-full h-32 sm:h-36 md:h-40 object-cover hover:scale-105 transition-transform duration-300"
               }
               data-testid={`article-image-${article.id}`}
               loading="lazy"
             />
           </div>
         )}
+        
+        <div className={isFeatured ? "p-6" : ""}>
         
         <div className="flex items-center space-x-2 mb-3">
           <Badge 
@@ -127,6 +129,7 @@ export function ArticleCard({ article, isFeatured = false }: ArticleCardProps) {
               </Button>
             </Link>
           </div>
+        </div>
         </div>
       </CardContent>
     </Card>
