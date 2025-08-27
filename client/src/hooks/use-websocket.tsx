@@ -7,8 +7,8 @@ export function useWebSocket(path: string, onMessage?: (data: any) => void) {
 
   const connect = () => {
     try {
-      const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-      const wsUrl = `${protocol}//${window.location.host}${path}`;
+      const socketUrl = import.meta.env.VITE_WEBSOCKET_URL || 'ws://localhost:3000';
+      const wsUrl = `${socketUrl}${path}`;
       
       wsRef.current = new WebSocket(wsUrl);
 
