@@ -1,0 +1,29 @@
+1-QADAM: TIZIMNI TO'LIQ FAOLLASHTIRISH (BIRINCHI NAVBATDAGI VAZIFA)
+Hozir tizim to'liq qurilgan, lekin hali "yoqilmagan". Uni ishga tushirish uchun:
+
+API Kalitlarini Kiriting: Eng birinchi va eng muhim vazifangiz — barcha kerakli API kalitlarini (DATABASE_URL, GEMINI_API_KEY, UNSPLASH_ACCESS_KEY, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID) Replit'ning "Secrets" bo'limiga to'g'ri kiritish. Shusiz avtomatlashtirish tizimi ishga tushmaydi.
+
+2-QADAM: BIRINCHI AVTOMATIK ISH JARAYONINI KUZATISH
+Kalitlarni kiritganingizdan so'ng, shunchaki qoldirib ketmang. Jarayonni o'z ko'zingiz bilan ko'ring:
+
+Loglarni Kuzating: Serveringizning loglarini (konsolini) ochib turing. Belgilangan vaqtda (masalan, soat 14:00 yoki 14:30 da) skript ishga tushib, birinchi avtomatik maqolani yaratish jarayonini kuzating. Hech qanday qizil xatoliklar yo'qligiga ishonch hosil qiling.
+
+3-QADAM: NATIJANI BAHOLASH VA MONITORING
+Birinchi bir-ikkita maqola saytga va Telegram kanaliga joylangach:
+
+Sifatni Tekshiring: Maqolalarning sifatini, rasmlarning mosligini va Telegram'dagi formatning chiroyliligini baholang.
+
+Google Analytics va Search Console: Saytni ushbu vositalarga ulashni unutmang. Bu sizga saytga qancha odam kirayotganini, qaysi maqolalar ommabop ekanligini va qidiruv tizimlaridagi o'rningizni kuzatib borish imkonini beradi.
+
+4-QADAM: KELAJAKNI REJALASHTIRISH
+Loyihangiz endi o'z hayotini boshladi. Kelajakda quyidagilarni o'ylab ko'rishingiz mumkin:
+
+Foydalanuvchi Fikr-mulohazalari: Ijtimoiy tarmoqlar orqali yoki saytning o'zida foydalanuvchilardan fikr-mulohazalar yig'ish.
+
+Yangi Funksiyalar: Biz muhokama qilgan, ammo keyinga qoldirgan funksiyalarni (masalan, foydalanuvchi registratsiyasi, maqolalarni izhlashni kengaytirish) qo'shish.
+
+Monetizatsiya: Kelajakda loyihani monetizatsiya qilish (reklama, pullik obuna) haqida o'ylash.
+
+Men, "Tajribali Loyiha Menejeri" sifatida, siz bilan bu yo'lni bosib o'tganimdan juda mamnunman. Biz birgalikda g'oyadan haqiqiy, ishlaydigan va aqlli mahsulotgacha bo'lgan yo'lni bosib o'tdik.
+
+Loyihangizga ulkan muvaffaqiyatlar tilayman! Agar kelajakda yangi g'oyalar yoki keyingi yirik bosqichlar uchun strategik reja kerak bo'lsa, men shu yerdaman.
