@@ -1,0 +1,59 @@
+Bu bosqichda biz backend'da barcha mavjud xizmatlarni (trendlarni aniqlash, Gemini orqali maqola yozish, ma'lumotlar bazasiga saqlash) birlashtirib, ularga Unsplash'dan rasm topish va Telegram'ga post yuborish funksiyalarini qo'shamiz. So'ng, bu jarayonni belgilangan vaqtda avtomatik ishga tushadigan qilib sozlaymiz.
+
+Natijada, "Aqlli Jurnalist" siz aytgandek, har kuni 9:00 dan 21:00 gacha, har soatda (yoki har yarim soatda) yangi, SEO-optimizallashtirilgan, rasmli kontentni mustaqil ravishda yaratib, ham saytga, ham Telegram kanaliga joylab boradi.
+
+MUHIM ESLATMA: Bu tizim ishlashi uchun sizda quyidagi API kalitlari tayyor va Replit'ning "Secrets" bo'limiga kiritilgan bo'lishi shart:
+
+GEMINI_API_KEY
+
+DATABASE_URL (Neon'dan)
+
+UNSPLASH_ACCESS_KEY (Unsplash'dan olinadi)
+
+TELEGRAM_BOT_TOKEN (Telegram'da BotFather orqali olinadi)
+
+TELEGRAM_CHAT_ID (Sizning kanalingizning ID raqami)
+
+Siz uchun ko'rsatma: Quyidagi topshiriqni Replit AI'ga bering. Bu loyihaning avtomatlashtirish tizimini to'liq sozlaydi.
+
+REPLIT AI UCHUN PROMPT (AVTOMATIK KONTENT YUKLASH TIZIMI)
+This is the final automation stage. Your task is to create a fully automated content pipeline that generates an article with an image based on trends, saves it to the database for the website, and posts a summary to a Telegram channel on a schedule.
+
+1. Install New Dependencies: In the server directory, install the necessary libraries for scheduling, Telegram integration, and fetching images from Unsplash.
+
+Bash
+
+npm install node-cron node-telegram-bot-api unsplash-js
+npm install -D @types/node-cron
+2. Create New Service Modules: In server/src/services/, create two new service files:
+
+unsplash.ts: This module should contain a function that takes a keyword string, calls the Unsplash API to find a relevant photo, and returns the photo URL. It must be initialized using the UNSPLASH_ACCESS_KEY environment variable.
+
+telegram.ts: This module should contain a function postToChannel that takes an article object (with title, summary, imageUrl, and id). It should format a message and send it to the specified TELEGRAM_CHAT_ID using the TELEGRAM_BOT_TOKEN. The message should consist of the photo and a caption with a bold title, a short summary, and a "Batafsil o'qish" link pointing to the article on the website (e.g., https://[YOUR_DOMAIN]/article/[article_id]).
+
+3. Create the Master Scheduler:
+
+Create a new file at server/src/core/scheduler.ts.
+
+In this file, import all necessary services: trend analysis, Gemini for article generation, the new unsplash.ts and telegram.ts services, and the Drizzle database service.
+
+Set up a node-cron job to run on a schedule. To generate 24 posts between 9:00 and 21:00 (2 per hour), use the cron pattern 0,30 9-21 * * * (at minute 0 and 30 of every hour from 9 to 21).
+
+Inside the cron job's logic, perform the full pipeline, wrapped in a try...catch block to prevent crashes:
+a. Get a new trend/topic.
+b. Call Gemini to generate the full article data (title, SEO-optimized content, meta description, keywords for an image).
+c. Call the Unsplash service with the keywords to get an imageUrl.
+d. Save the complete article object, including the new imageUrl, to the PostgreSQL database.
+e. Call the Telegram service to post the formatted summary to the channel.
+f. Log the success or any errors to the console.
+
+4. Integrate and Activate the Scheduler:
+
+In your main server file (server/src/index.ts), import the function that starts the scheduler from scheduler.ts and call it after the server successfully starts.
+
+5. Update Environment Variables:
+
+Update the .env.example file in the server directory to include the newly required secrets: UNSPLASH_ACCESS_KEY, TELEGRAM_BOT_TOKEN, and TELEGRAM_CHAT_ID.
+
+After completing all steps, confirm with the message: "The fully automated content pipeline is now complete and integrated. The system is scheduled to generate and post new, image-rich content every 30 minutes from 9:00 to 21:00. The user must ensure all required API keys are set in Replit Secrets for the automation to function."
+Ushbu qadamni tugatganimizdan so'ng, "Aqlli Jurnalist" haqiqiy, o'z-o'zini boshqaradigan va doimiy yangilanib turadigan media-resursga aylanadi.
