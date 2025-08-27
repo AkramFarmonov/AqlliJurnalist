@@ -6,6 +6,7 @@ import { generateArticle, generateChatResponse, analyzeTrends } from "./services
 import { newsApiService } from "./services/newsApi";
 import { postToChannel, sendNotification } from "./services/telegram";
 import { insertArticleSchema, insertChatMessageSchema } from "@shared/schema";
+import { generateSitemap } from "./routes/sitemap";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   const httpServer = createServer(app);
@@ -302,6 +303,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ error: "Failed to generate sitemap" });
     }
   });
+
+  // SEO Routes
+  app.get("/sitemap.xml", generateSitemap);
 
   return httpServer;
 }

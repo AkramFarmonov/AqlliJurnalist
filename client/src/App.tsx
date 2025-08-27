@@ -9,6 +9,8 @@ import Home from "@/pages/home";
 import ArticlePage from "@/pages/article";
 import AboutPage from "@/pages/about";
 import NotFound from "@/pages/not-found";
+import NotFound404Page from "@/pages/404";
+import ServerError500Page from "@/pages/500";
 
 function Router() {
   return (
@@ -16,6 +18,8 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/article/:id" component={ArticlePage} />
       <Route path="/about" component={AboutPage} />
+      <Route path="/404" component={NotFound404Page} />
+      <Route path="/500" component={ServerError500Page} />
       <Route component={NotFound} />
     </Switch>
   );
