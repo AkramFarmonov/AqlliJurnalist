@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Eye, MessageCircle, Share2, Bot } from "lucide-react";
+import { Link } from "wouter";
 import type { Article } from "@shared/schema";
 import { formatDistanceToNow } from "date-fns";
 
@@ -61,12 +62,14 @@ export function ArticleCard({ article, isFeatured = false }: ArticleCardProps) {
         </div>
         
         <div className="flex-1 flex flex-col">
-          <h3 
-            className={`${isFeatured ? 'text-3xl' : 'text-xl'} font-bold text-foreground mb-3 hover:text-primary cursor-pointer transition-colors`}
-            data-testid={`article-title-${article.id}`}
-          >
-            {article.title}
-          </h3>
+          <Link href={`/article/${article.id}`}>
+            <h3 
+              className={`${isFeatured ? 'text-3xl' : 'text-xl'} font-bold text-foreground mb-3 hover:text-primary cursor-pointer transition-colors`}
+              data-testid={`article-title-${article.id}`}
+            >
+              {article.title}
+            </h3>
+          </Link>
           
           <p 
             className={`text-muted-foreground ${isFeatured ? 'text-base' : 'text-sm'} mb-4 flex-1`}
@@ -92,14 +95,16 @@ export function ArticleCard({ article, isFeatured = false }: ArticleCardProps) {
             </span>
           </div>
           
-          <Button 
-            variant="ghost" 
-            size="sm"
-            className="text-primary hover:bg-primary/10"
-            data-testid={`button-read-article-${article.id}`}
-          >
-            O'qish
-          </Button>
+          <Link href={`/article/${article.id}`}>
+            <Button 
+              variant="ghost" 
+              size="sm"
+              className="text-primary hover:bg-primary/10"
+              data-testid={`button-read-article-${article.id}`}
+            >
+              O'qish
+            </Button>
+          </Link>
         </div>
       </CardContent>
     </Card>
