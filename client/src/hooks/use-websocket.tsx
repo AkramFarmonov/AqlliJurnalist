@@ -7,49 +7,51 @@ export function useWebSocket(path: string, onMessage?: (data: any) => void) {
 
   const connect = () => {
     try {
-      const socketUrl = import.meta.env.VITE_WEBSOCKET_URL || 'ws://localhost:3000';
-      const wsUrl = `${socketUrl}${path}`;
+      // Use current origin but with ws protocol
+      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const host = window.location.host;
+      const wsUrl = `${protocol}//${host}${path}`;
       
       wsRef.current = new WebSocket(wsUrl);
 
       wsRef.current.onopen = () => {
         setIsConnected(true);
-        console.log("WebSocket connected");
+        // Remove console logs to prevent spam
       };
 
-      wsRef.current.onclose = () => {
+      wsRef.current.onclose = (event) => {
         setIsConnected(false);
-        console.log("WebSocket disconnected");
-        
-        // Reconnect after 3 seconds
-        reconnectTimeoutRef.current = setTimeout(() => {
-          connect();
-        }, 3000);
+        // Only reconnect if it wasn't a manual close
+        if (event.code !== 1000) {
+          // Reconnect after 5 seconds
+          reconnectTimeoutRef.current = setTimeout(() => {
+            connect();
+          }, 5000);
+        }
       };
 
-      wsRef.current.onerror = (error) => {
-        console.error("WebSocket error:", error);
+      wsRef.current.onerror = () => {
+        // Silently handle errors to prevent console spam
       };
 
       wsRef.current.onmessage = (event) => {
         try {
           const data = JSON.parse(event.data);
           onMessage?.(data);
-        } catch (error) {
-          console.error("Failed to parse WebSocket message:", error);
+        } catch {
+          // Silently ignore parsing errors
         }
       };
-    } catch (error) {
-      console.error("Failed to create WebSocket connection:", error);
+    } catch {
+      // Silently ignore connection errors
     }
   };
 
   const sendMessage = (data: any) => {
     if (wsRef.current?.readyState === WebSocket.OPEN) {
       wsRef.current.send(JSON.stringify(data));
-    } else {
-      console.warn("WebSocket is not connected");
     }
+    // Silently ignore if not connected
   };
 
   useEffect(() => {
