@@ -43,6 +43,11 @@ Preferred communication style: Simple, everyday language.
 - **News API**: Integration for fetching trending news and search functionality
 - **Content Categorization**: Support for multiple news categories (Technology, AI/ML, Business, Politics, Sports)
 
+### Communication Services
+- **Telegram Bot**: Integrated Telegram bot for posting articles and sending notifications
+- **Channel Publishing**: Automatic article posting to Telegram channels with proper formatting
+- **Notification System**: Admin notifications and updates via Telegram
+
 ### Development Tools
 - **Replit Integration**: Custom Vite plugins for Replit development environment
 - **Error Handling**: Runtime error overlay for development debugging

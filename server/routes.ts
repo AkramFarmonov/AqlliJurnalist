@@ -4,6 +4,7 @@ import { WebSocketServer, WebSocket } from "ws";
 import { storage } from "./storage";
 import { generateArticle, generateChatResponse, analyzeTrends } from "./services/gemini";
 import { newsApiService } from "./services/newsApi";
+import { postToChannel, sendNotification } from "./services/telegram";
 import { insertArticleSchema, insertChatMessageSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -199,6 +200,75 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(newsData);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch trending news" });
+    }
+  });
+
+  // Telegram API endpoints
+  app.post("/api/telegram/post", async (req, res) => {
+    try {
+      const { articleId } = req.body;
+      
+      if (!articleId) {
+        return res.status(400).json({ error: "Article ID is required" });
+      }
+
+      const article = await storage.getArticle(articleId);
+      if (!article) {
+        return res.status(404).json({ error: "Article not found" });
+      }
+
+      const success = await postToChannel({
+        id: article.id,
+        title: article.title,
+        summary: article.summary,
+        imageUrl: article.imageUrl
+      });
+
+      if (success) {
+        res.json({ success: true, message: "Article posted to Telegram channel" });
+      } else {
+        res.status(500).json({ error: "Failed to post to Telegram channel" });
+      }
+    } catch (error) {
+      console.error('Error posting to Telegram:', error);
+      res.status(500).json({ error: "Failed to post to Telegram channel" });
+    }
+  });
+
+  app.post("/api/telegram/notify", async (req, res) => {
+    try {
+      const { message } = req.body;
+      
+      if (!message) {
+        return res.status(400).json({ error: "Message is required" });
+      }
+
+      const success = await sendNotification(message);
+      
+      if (success) {
+        res.json({ success: true, message: "Notification sent" });
+      } else {
+        res.status(500).json({ error: "Failed to send notification" });
+      }
+    } catch (error) {
+      console.error('Error sending Telegram notification:', error);
+      res.status(500).json({ error: "Failed to send notification" });
+    }
+  });
+
+  // Test Telegram connection
+  app.get("/api/telegram/test", async (req, res) => {
+    try {
+      const success = await sendNotification("🤖 Test xabari: Telegram bot ishlayapti!");
+      
+      if (success) {
+        res.json({ success: true, message: "Telegram test message sent successfully" });
+      } else {
+        res.status(500).json({ error: "Failed to send test message" });
+      }
+    } catch (error) {
+      console.error('Error testing Telegram connection:', error);
+      res.status(500).json({ error: "Failed to test Telegram connection" });
     }
   });
 
