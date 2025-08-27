@@ -153,7 +153,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         
         if (existing) {
           await storage.updateTrend(existing.id, {
-            posts: existing.posts + Math.floor(trend.relevance / 10),
+            posts: (existing.posts || 0) + Math.floor(trend.relevance / 10),
           });
         } else {
           await storage.createTrend({
