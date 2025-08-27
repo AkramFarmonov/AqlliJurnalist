@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Brain, Search, Menu } from "lucide-react";
+import { Link, useLocation } from "wouter";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -12,6 +13,7 @@ interface NavbarProps {
 export function Navbar({ onSearch }: NavbarProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [location] = useLocation();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,10 +21,10 @@ export function Navbar({ onSearch }: NavbarProps) {
   };
 
   const navLinks = [
-    { href: "#", label: "Bosh sahifa", active: true },
-    { href: "#", label: "Trendlar", active: false },
-    { href: "#", label: "Kategoriyalar", active: false },
-    { href: "#", label: "AI Chat", active: false },
+    { href: "/", label: "Bosh sahifa" },
+    { href: "/about", label: "Biz haqimizda" },
+    { href: "#", label: "Kategoriyalar" },
+    { href: "#", label: "AI Chat" },
   ];
 
   return (
@@ -42,20 +44,31 @@ export function Navbar({ onSearch }: NavbarProps) {
           </div>
           
           <div className="hidden md:flex items-center space-x-6">
-            {navLinks.map((link) => (
-              <a 
-                key={link.label}
-                href={link.href} 
-                className={`transition-colors ${
-                  link.active 
-                    ? "text-foreground hover:text-primary" 
-                    : "text-muted-foreground hover:text-primary"
-                }`}
-                data-testid={`link-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
-              >
-                {link.label}
-              </a>
-            ))}
+            {navLinks.map((link) => 
+              link.href.startsWith('#') ? (
+                <a 
+                  key={link.label}
+                  href={link.href} 
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                  data-testid={`link-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link 
+                  key={link.label}
+                  href={link.href}
+                  className={`transition-colors ${
+                    location === link.href 
+                      ? "text-foreground hover:text-primary" 
+                      : "text-muted-foreground hover:text-primary"
+                  }`}
+                  data-testid={`link-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
+                >
+                  {link.label}
+                </Link>
+              )
+            )}
           </div>
           
           <div className="flex items-center space-x-4">
@@ -109,21 +122,33 @@ export function Navbar({ onSearch }: NavbarProps) {
                   </form>
                   
                   <div className="flex flex-col space-y-3">
-                    {navLinks.map((link) => (
-                      <a 
-                        key={link.label}
-                        href={link.href} 
-                        className={`transition-colors py-2 ${
-                          link.active 
-                            ? "text-foreground hover:text-primary" 
-                            : "text-muted-foreground hover:text-primary"
-                        }`}
-                        onClick={() => setIsOpen(false)}
-                        data-testid={`mobile-link-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
-                      >
-                        {link.label}
-                      </a>
-                    ))}
+                    {navLinks.map((link) => 
+                      link.href.startsWith('#') ? (
+                        <a 
+                          key={link.label}
+                          href={link.href} 
+                          className="text-muted-foreground hover:text-primary transition-colors py-2"
+                          onClick={() => setIsOpen(false)}
+                          data-testid={`mobile-link-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
+                        >
+                          {link.label}
+                        </a>
+                      ) : (
+                        <Link 
+                          key={link.label}
+                          href={link.href}
+                          className={`transition-colors py-2 ${
+                            location === link.href 
+                              ? "text-foreground hover:text-primary" 
+                              : "text-muted-foreground hover:text-primary"
+                          }`}
+                          onClick={() => setIsOpen(false)}
+                          data-testid={`mobile-link-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
+                        >
+                          {link.label}
+                        </Link>
+                      )
+                    )}
                   </div>
                 </div>
               </SheetContent>
