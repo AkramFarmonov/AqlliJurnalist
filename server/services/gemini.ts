@@ -2,7 +2,7 @@ import { GoogleGenAI } from "@google/genai";
 
 // Using Gemini 1.5 Flash for AI-powered news platform
 const genAI = new GoogleGenAI({ 
-  apiKey: process.env.GEMINI_API_KEY || "default_key"
+  apiKey: process.env.GOOGLE_GEMINI_API_KEY || "default_key"
 });
 
 export interface GeneratedArticle {
