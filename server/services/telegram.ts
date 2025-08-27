@@ -34,11 +34,33 @@ ${article.summary}
 #AqlliJurnalist #Yangilik #AI`;
 
     if (article.imageUrl) {
-      // Send photo with caption
-      await bot.sendPhoto(chatId, article.imageUrl, {
-        caption: caption,
-        parse_mode: 'Markdown'
-      });
+      try {
+        // Validate image URL before sending
+        console.log(`🖼️ Attempting to send image: ${article.imageUrl}`);
+        
+        // Test if image URL is accessible
+        const imageResponse = await fetch(article.imageUrl, { method: 'HEAD' });
+        if (!imageResponse.ok) {
+          console.warn(`Image URL not accessible: ${imageResponse.status}, falling back to text`);
+          await bot.sendMessage(chatId, caption, {
+            parse_mode: 'Markdown'
+          });
+          return true;
+        }
+        
+        // Send photo with caption
+        await bot.sendPhoto(chatId, article.imageUrl, {
+          caption: caption,
+          parse_mode: 'Markdown'
+        });
+        console.log(`✅ Successfully sent photo with caption`);
+      } catch (photoError) {
+        console.error('Failed to send photo, falling back to text:', photoError);
+        // Fallback to text message if photo fails
+        await bot.sendMessage(chatId, caption, {
+          parse_mode: 'Markdown'
+        });
+      }
     } else {
       // Send text message only
       await bot.sendMessage(chatId, caption, {
