@@ -22,7 +22,7 @@ export function BreakingNewsTicker() {
           </div>
           
           <div className="flex-1 overflow-hidden">
-            <div className="flex items-center space-x-8 animate-scroll">
+            <div className="flex items-center space-x-8">
               {articles.map((article, index) => (
                 <div key={article.id} className="flex items-center space-x-2 flex-shrink-0">
                   <ChevronRight className="w-4 h-4 text-white/80" />
@@ -38,16 +38,6 @@ export function BreakingNewsTicker() {
           </div>
         </div>
       </div>
-      
-      <style jsx>{`
-        @keyframes scroll {
-          0% { transform: translateX(100%); }
-          100% { transform: translateX(-100%); }
-        }
-        .animate-scroll {
-          animation: scroll 30s linear infinite;
-        }
-      `}</style>
     </div>
   );
 }
