@@ -75,9 +75,33 @@
   .trend-badge {
     background: linear-gradient(45deg, var(--primary), var(--accent));
   }
+  
+  /* Responsive image optimizations */
+  .responsive-image {
+    @apply w-full h-auto object-cover transition-all duration-300;
+  }
+  
+  .image-hover {
+    @apply hover:scale-105 hover:shadow-lg;
+  }
+  
+  /* Image loading states */
+  .image-skeleton {
+    @apply bg-gradient-to-r from-muted via-muted/50 to-muted;
+    animation: shimmer 2s linear infinite;
+  }
 }
 
 @keyframes blink {
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
 }

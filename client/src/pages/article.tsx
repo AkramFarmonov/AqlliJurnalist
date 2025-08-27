@@ -41,7 +41,7 @@ export default function ArticlePage() {
             <div className="h-8 bg-muted rounded w-1/4 mb-6"></div>
             <div className="h-12 bg-muted rounded w-3/4 mb-4"></div>
             <div className="h-6 bg-muted rounded w-1/2 mb-8"></div>
-            <div className="h-64 bg-muted rounded mb-8"></div>
+            <div className="h-64 sm:h-80 md:h-96 lg:h-[28rem] bg-muted rounded-xl mb-8"></div>
             <div className="space-y-4">
               <div className="h-4 bg-muted rounded"></div>
               <div className="h-4 bg-muted rounded"></div>
@@ -138,12 +138,13 @@ export default function ArticlePage() {
 
         {/* Article Image */}
         {article.imageUrl && (
-          <div className="mb-8">
+          <div className="mb-8 relative overflow-hidden rounded-xl">
             <img 
               src={article.imageUrl} 
               alt={article.title}
-              className="w-full h-96 rounded-xl object-cover"
+              className="w-full h-64 sm:h-80 md:h-96 lg:h-[28rem] xl:h-[32rem] object-cover transition-transform duration-300 hover:scale-105"
               data-testid="article-image"
+              loading="lazy"
             />
           </div>
         )}

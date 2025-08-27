@@ -41,12 +41,19 @@ export function ArticleCard({ article, isFeatured = false }: ArticleCardProps) {
     <Card className="news-card shadow-sm hover:shadow-md transition-all duration-200 h-full overflow-hidden" data-testid={`article-card-${article.id}`}>
       <CardContent className="p-4 h-full flex flex-col">
         {article.imageUrl && (
-          <img 
-            src={article.imageUrl} 
-            alt={article.title}
-            className={isFeatured ? "w-full h-64 rounded-lg object-cover mb-4" : "w-24 h-24 rounded-lg object-cover mb-3"}
-            data-testid={`article-image-${article.id}`}
-          />
+          <div className={`relative ${isFeatured ? "mb-4" : "mb-3"}`}>
+            <img 
+              src={article.imageUrl} 
+              alt={article.title}
+              className={
+                isFeatured 
+                  ? "w-full h-48 sm:h-56 md:h-64 lg:h-72 rounded-lg object-cover" 
+                  : "w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-lg object-cover"
+              }
+              data-testid={`article-image-${article.id}`}
+              loading="lazy"
+            />
+          </div>
         )}
         
         <div className="flex items-center space-x-2 mb-3">
