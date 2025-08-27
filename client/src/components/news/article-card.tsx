@@ -89,7 +89,7 @@ export function ArticleCard({ article, isFeatured = false }: ArticleCardProps) {
         </div>
         
         <div className="flex items-center justify-between mt-auto pt-3 border-t border-border">
-          <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+          <div className="flex items-center space-x-4 text-sm text-muted-foreground flex-1 min-w-0">
             <span className="flex items-center space-x-1 hover:text-primary transition-colors cursor-pointer" data-testid={`article-views-${article.id}`}>
               <Eye className="w-4 h-4" />
               <span className="font-medium">{article.views}</span>
@@ -104,16 +104,18 @@ export function ArticleCard({ article, isFeatured = false }: ArticleCardProps) {
             </span>
           </div>
           
-          <Link href={`/article/${article.id}`}>
-            <Button 
-              variant="ghost" 
-              size="sm"
-              className="text-primary hover:bg-primary/10 font-medium"
-              data-testid={`button-read-article-${article.id}`}
-            >
-              Davomini o'qish →
-            </Button>
-          </Link>
+          <div className="flex-shrink-0 ml-4">
+            <Link href={`/article/${article.id}`}>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                className="text-primary hover:bg-primary/10 font-medium whitespace-nowrap"
+                data-testid={`button-read-article-${article.id}`}
+              >
+                Davomini o'qish →
+              </Button>
+            </Link>
+          </div>
         </div>
       </CardContent>
     </Card>
