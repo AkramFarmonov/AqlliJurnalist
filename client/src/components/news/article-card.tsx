@@ -17,6 +17,15 @@ export function ArticleCard({ article, isFeatured = false }: ArticleCardProps) {
     { addSuffix: true }
   );
 
+  // Limit summary length for better UX
+  const truncateSummary = (text: string, maxLength: number) => {
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength).trim() + "...";
+  };
+
+  const summaryLength = isFeatured ? 150 : 100;
+  const displaySummary = truncateSummary(article.summary, summaryLength);
+
   const getCategoryColor = (category: string) => {
     const colors: Record<string, string> = {
       "AI": "bg-primary/10 text-primary",
@@ -72,10 +81,10 @@ export function ArticleCard({ article, isFeatured = false }: ArticleCardProps) {
           </Link>
           
           <p 
-            className={`text-muted-foreground ${isFeatured ? 'text-base' : 'text-sm'} mb-4 flex-1`}
+            className={`text-muted-foreground ${isFeatured ? 'text-base' : 'text-sm'} mb-4 flex-1 leading-relaxed`}
             data-testid={`article-summary-${article.id}`}
           >
-            {article.summary}
+            {displaySummary}
           </p>
         </div>
         
@@ -99,10 +108,10 @@ export function ArticleCard({ article, isFeatured = false }: ArticleCardProps) {
             <Button 
               variant="ghost" 
               size="sm"
-              className="text-primary hover:bg-primary/10"
+              className="text-primary hover:bg-primary/10 font-medium"
               data-testid={`button-read-article-${article.id}`}
             >
-              O'qish
+              Davomini o'qish →
             </Button>
           </Link>
         </div>
