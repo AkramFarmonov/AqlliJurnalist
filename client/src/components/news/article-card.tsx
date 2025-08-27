@@ -11,7 +11,10 @@ interface ArticleCardProps {
 }
 
 export function ArticleCard({ article, isFeatured = false }: ArticleCardProps) {
-  const timeAgo = formatDistanceToNow(new Date(article.publishedAt), { addSuffix: true });
+  const timeAgo = formatDistanceToNow(
+    article.publishedAt ? new Date(article.publishedAt) : new Date(), 
+    { addSuffix: true }
+  );
 
   const getCategoryColor = (category: string) => {
     const colors: Record<string, string> = {

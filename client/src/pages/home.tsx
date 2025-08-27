@@ -82,18 +82,30 @@ export default function Home() {
                   <p className="text-muted-foreground">Hech qanday maqola topilmadi.</p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                  {filteredArticles.map((article, index) => (
-                    <div 
-                      key={article.id}
-                      className={index === 0 ? "md:col-span-2 xl:col-span-2" : "col-span-1"}
-                    >
+                <div className="space-y-8">
+                  {/* Featured Article */}
+                  {filteredArticles.length > 0 && (
+                    <div className="w-full">
                       <ArticleCard 
-                        article={article} 
-                        isFeatured={index === 0}
+                        article={filteredArticles[0]} 
+                        isFeatured={true}
                       />
                     </div>
-                  ))}
+                  )}
+                  
+                  {/* Regular Articles Grid */}
+                  {filteredArticles.length > 1 && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 items-stretch">
+                      {filteredArticles.slice(1).map((article) => (
+                        <div key={article.id} className="h-full">
+                          <ArticleCard 
+                            article={article} 
+                            isFeatured={false}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
             </section>
