@@ -6,32 +6,46 @@ export function useWebSocket(path: string, onMessage?: (data: any) => void) {
   const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const connect = () => {
+    // Don't try to connect if we already have a connection
+    if (wsRef.current?.readyState === WebSocket.CONNECTING || 
+        wsRef.current?.readyState === WebSocket.OPEN) {
+      return;
+    }
+
     try {
+      // Check if we're in a browser environment
+      if (typeof window === 'undefined') return;
+
       // Use current origin but with ws protocol
       const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
       const host = window.location.host;
       const wsUrl = `${protocol}//${host}${path}`;
       
+      // Validate URL before creating WebSocket
+      try {
+        new URL(wsUrl); // This will throw if URL is invalid
+      } catch {
+        return; // Invalid URL, don't attempt connection
+      }
+      
       wsRef.current = new WebSocket(wsUrl);
 
       wsRef.current.onopen = () => {
         setIsConnected(true);
-        // Remove console logs to prevent spam
       };
 
       wsRef.current.onclose = (event) => {
         setIsConnected(false);
-        // Only reconnect if it wasn't a manual close
-        if (event.code !== 1000) {
-          // Reconnect after 5 seconds
+        // Only reconnect on unexpected closes and if path is valid
+        if (event.code !== 1000 && path === '/ws') {
           reconnectTimeoutRef.current = setTimeout(() => {
             connect();
-          }, 5000);
+          }, 10000); // Increase to 10 seconds
         }
       };
 
       wsRef.current.onerror = () => {
-        // Silently handle errors to prevent console spam
+        setIsConnected(false);
       };
 
       wsRef.current.onmessage = (event) => {
@@ -43,7 +57,8 @@ export function useWebSocket(path: string, onMessage?: (data: any) => void) {
         }
       };
     } catch {
-      // Silently ignore connection errors
+      // Silently ignore all connection errors
+      setIsConnected(false);
     }
   };
 
