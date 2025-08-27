@@ -1,0 +1,38 @@
+1-QADAM: OXIRGI TUZATISHNI TASDIQLASH (TEKSHIRUV)
+Avvalo, Replit AI oxirgi topshiriqni bajarib, DOMException ga sabab bo'lgan WebSocket xatoligini tuzatganiga ishonch hosil qilishimiz kerak. Biz yangi ishni beqaror poydevor ustiga qurmaymiz.
+
+Sizdan kutilayotgan harakat: Iltimos, ilovani qayta ishga tushirib, brauzer konsolini (odatda F12 tugmasi) oching. DOMException xatoligi endi ko'rinmayotganini tasdiqlay olasizmi?
+
+2-QADAM: DIZAYNNI YAKUNIY KO'ZDAN KECHIRISH (8-BOSQICHNI YOPISH)
+Xatolik bartaraf etilganiga ishonch hosil qilgach, 8-Bosqichimizni ("UI/UX'ni Moslashtirish") rasman yakunlaymiz. Buning uchun sizning yakuniy tasdig'ingiz kerak.
+
+Sizdan kutilayotgan harakat: Iltimos, saytning hozirgi, to'liq ishlayotgan dizayniga oxirgi marta diqqat bilan qarang.
+
+Ranglar, shriftlar, elementlar orasidagi masofalar — hamma narsa sizga ma'qulmi?
+
+Biror narsaga "sayqal" berishni, kichik o'zgartirish kiritishni xohlaysizmi?
+
+Sizdan "Dizayn menga ma'qul, keyingi bosqichga o'tamiz" degan tasdiqni olganimizdan so'ng, biz bu bosqichni yopib, loyihaning final qismiga o'tamiz.
+
+3-QADAM: LOYIHANI JONLI SERVERGA CHIQARISH (9-BOSQICH - DEPLOYMENT)
+Va nihoyat, eng hayajonli qismiga o'tamiz — 9-Bosqich: Production'ga Tayyorlash va Deployment.
+
+Bu bosqichning maqsadi: Loyihamizni shaxsiy muhitimizdan (Replit'dan) chiqarib, butun dunyo ko'rishi mumkin bo'lgan haqiqiy internet manziliga joylashtirish. Biz reja qilganimizdek, Render platformasidan foydalanamiz.
+
+Bu bosqich o'z ichiga quyidagilarni oladi:
+
+Frontend va backend'ni production uchun "build" qilish.
+
+Render'da kerakli servislarini yaratish (web service, database).
+
+Barcha API kalitlari va maxfiy ma'lumotlarni Render'ning o'ziga xavfsiz tarzda kiritish.
+
+Domen nomini ulash (agar mavjud bo'lsa).
+
+Xulosa qilib aytganda, sizdan kutilayotgan navbatdagi qadamlar:
+
+WebSocket xatoligi tuzatilganini tasdiqlang.
+
+Saytning joriy dizaynini ma'qullang.
+
+Shu ikki qadamdan so'ng, men sizga deployment jarayonini boshlash uchun birinchi promptni taqdim etaman.
