@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aqlli-jurnalist.replit.app/sitemap.xml
+
+# Disallow crawling of API endpoints
+Disallow: /api/
+
+# Allow crawling of all content pages
+Allow: /article/
+Allow: /
+
+# Crawl delay for search engines
+Crawl-delay: 1

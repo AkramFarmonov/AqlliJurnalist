@@ -11,6 +11,7 @@ import { QuickActions } from "@/components/sidebar/quick-actions";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import type { Article } from "@shared/schema";
 
 export default function Home() {
@@ -44,6 +45,19 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
+      <Helmet>
+        <title>Aqlli Jurnalist - O'zbekistonning Eng Yangi AI-Powered Yangilik Platformasi</title>
+        <meta name="description" content="Aqlli Jurnalist - O'zbekistondagi eng so'nggi yangiliklar, texnologiya, AI, biznes va siyosat haqida tez va ishonchli ma'lumotlar. Real vaqtda yangilanuvchi maqolalar va chuqur tahlillar." />
+        <meta name="keywords" content="O'zbekiston yangiliklar, AI yangiliklar, texnologiya, biznes, siyosat, sport, sun'iy intellekt, Toshkent yangiliklar" />
+        <meta property="og:title" content="Aqlli Jurnalist - AI-Powered Yangilik Platformasi" />
+        <meta property="og:description" content="O'zbekistondagi eng so'nggi yangiliklar va AI tomonidan yaratilgan maqolalar. Real vaqtda yangilanuvchi ma'lumotlar va professional tahlillar." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://aqlli-jurnalist.replit.app" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Aqlli Jurnalist - AI-Powered Yangilik Platformasi" />
+        <meta name="twitter:description" content="O'zbekistondagi eng so'nggi yangiliklar va AI maqolalari" />
+        <link rel="canonical" href="https://aqlli-jurnalist.replit.app" />
+      </Helmet>
       <Navbar onSearch={handleSearch} />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">

@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Link } from "wouter";
+import { Helmet } from "react-helmet-async";
 import type { Article } from "@shared/schema";
 import { formatDistanceToNow } from "date-fns";
 
@@ -82,8 +83,38 @@ export default function ArticlePage() {
     { addSuffix: true }
   );
 
+  // SEO meta description (first 160 characters of content)
+  const metaDescription = article.content 
+    ? article.content.substring(0, 160).replace(/\n/g, ' ').trim() + '...'
+    : article.summary || 'Aqlli Jurnalist platformasidagi maqola';
+
+  const canonicalUrl = `https://aqlli-jurnalist.replit.app/article/${article.id}`;
+  const ogImage = article.imageUrl || 'https://aqlli-jurnalist.replit.app/og-default.jpg';
+
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
+      <Helmet>
+        <title>{article.title} - Aqlli Jurnalist</title>
+        <meta name="description" content={metaDescription} />
+        <meta property="og:title" content={article.title} />
+        <meta property="og:description" content={metaDescription} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:type" content="article" />
+        <meta property="article:author" content="Aqlli Jurnalist" />
+        <meta property="article:section" content={article.category} />
+        {article.publishedAt && (
+          <meta property="article:published_time" content={new Date(article.publishedAt).toISOString()} />
+        )}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={article.title} />
+        <meta name="twitter:description" content={metaDescription} />
+        <meta name="twitter:image" content={ogImage} />
+        <link rel="canonical" href={canonicalUrl} />
+        {article.tags && article.tags.length > 0 && (
+          <meta name="keywords" content={article.tags.join(', ')} />
+        )}
+      </Helmet>
       <Navbar onSearch={() => {}} />
       
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
