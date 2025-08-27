@@ -151,6 +151,8 @@ export class MemStorage implements IStorage {
   }
 
   private async createSampleArticles() {
+    const { fetchImageByKeyword } = await import("./services/unsplash");
+    
     const sampleArticles = [
       {
         title: "Kvant kompyuterlarining kelajagi: texnologiyaning yangi davri",
@@ -158,7 +160,8 @@ export class MemStorage implements IStorage {
         content: "Kvant kompyuterlari zamonaviy texnologiyaning eng muhim yutuqlaridan biri hisoblanadi. Ular an'anaviy kompyuterlardan farqli ravishda kvant mexanikasi qonunlaridan foydalanadi. Bu esa ularga bir vaqtda ko'plab hisob-kitoblarni parallel ravishda bajarishga imkon beradi. Google, IBM va boshqa yirik kompaniyalar kvant kompyuterlarini rivojlantirishga milliardlab dollar sarmoya kiritmoqda. Kelajakda bu texnologiya tibbiyot, moliya va kriptografiya sohalarida inqilob yasashi kutilmoqda.",
         category: "Texnologiya",
         tags: ["kvant", "kompyuter", "fan", "texnologiya"],
-        isAiGenerated: false
+        isAiGenerated: false,
+        imageUrl: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
       },
       {
         title: "Toshkentda elektromobillar infratuzilmasi rivojlanmoqda",
@@ -166,7 +169,8 @@ export class MemStorage implements IStorage {
         content: "Toshkent shahrida transport tizimini modernizatsiya qilish doirasida elektromobillar infratuzilmasi jadal rivojlanmoqda. Hozirda shaharda 50 dan ortiq zaryadlash stantsiyasi mavjud bo'lib, 2025 yilgacha bu raqam 200 taga yetkazilishi rejalashtirilgan. Bu tashabbusning maqsadi havoning ifloslanishini kamaytirish va yashil transport turlarini rag'batlantirish hisoblanadi.",
         category: "Transport",
         tags: ["elektromobil", "Toshkent", "infratuzilma", "ekologiya"],
-        isAiGenerated: false
+        isAiGenerated: false,
+        imageUrl: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
       },
       {
         title: "O'zbekistonning IT eksport salohiyati: imkoniyatlar va istiqbollar",
@@ -174,7 +178,8 @@ export class MemStorage implements IStorage {
         content: "So'nggi yillarda O'zbekistonda IT sohasining rivojlanishi kuzatilmoqda. 2023 yilda mamlakatdan IT xizmatlarini eksport hajmi 2.5 milliard dollarni tashkil etdi. Toshkent shahrida 300 dan ortiq IT kompaniya faoliyat yuritmoqda. Hukumat tomonidan IT sohani qo'llab-quvvatlash maqsadida maxsus soliq imtiyozlari va IT parklar tashkil etilgan.",
         category: "IT va Biznes",
         tags: ["IT", "eksport", "O'zbekiston", "texnologiya"],
-        isAiGenerated: false
+        isAiGenerated: false,
+        imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
       },
       {
         title: "Sun'iy intellekt va ta'lim tizimi: yangi imkoniyatlar",
@@ -182,7 +187,8 @@ export class MemStorage implements IStorage {
         content: "Sun'iy intellekt ta'lim sohasida inqilob yaratmoqda. Shaxsiy o'quv rejalari, avtomatik baholash tizimi va aqlli darslik dasturlari o'quvchilarning bilim olish samaradorligini oshirmoqda. O'zbekiston universitetlari ham AI texnologiyalarini joriy etishni boshlagan. Bu yangi yondashuv har bir talabaning individual ehtiyojlariga moslashtirilgan ta'lim olishiga yordam beradi.",
         category: "Ta'lim",
         tags: ["AI", "ta'lim", "texnologiya", "innovatsiya"],
-        isAiGenerated: false
+        isAiGenerated: false,
+        imageUrl: "https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
       },
       {
         title: "Blokcheyn texnologiyasi va uning amaliy qo'llanilishi",
@@ -190,7 +196,8 @@ export class MemStorage implements IStorage {
         content: "Blokcheyn texnologiyasi zamonaviy dunyoda keng qo'llanilmoqda. U nafaqat Bitcoin va boshqa kriptovalyutalar uchun asos bo'lib xizmat qiladi, balki logistika, sog'liqni saqlash va qishloq xo'jaligi kabi sohalarda ham foydalaniladi. Bu texnologiya ma'lumotlarning xavfsiz va o'zgarmas saqlashini ta'minlaydi, shuningdek, vorisitchilarni yo'q qiladi.",
         category: "Blokcheyn",
         tags: ["blokcheyn", "kriptovalyuta", "xavfsizlik", "texnologiya"],
-        isAiGenerated: false
+        isAiGenerated: false,
+        imageUrl: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
       },
       {
         title: "5G aloqa tarmoqlari: kelajakning internet tezligi",
@@ -198,7 +205,8 @@ export class MemStorage implements IStorage {
         content: "5G tarmoqlari internetning navbatdagi avlodi hisoblanadi. Bu texnologiya soniyada gigabaytlab ma'lumot uzatish imkonini beradi. O'zbekistonda ham 5G tarmoqlarini sinovdan o'tkazish boshlangan. Bu texnologiya avtomatlashtirish, masofaviy jarrohlik va virtual reallik sohasida yangi imkoniyatlar yaratadi.",
         category: "Aloqa",
         tags: ["5G", "internet", "aloqa", "tezlik"],
-        isAiGenerated: false
+        isAiGenerated: false,
+        imageUrl: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
       },
       {
         title: "Startap ekotizimi: yosh tadbirkorlar uchun imkoniyatlar",
@@ -206,7 +214,8 @@ export class MemStorage implements IStorage {
         content: "Mamlakatda startap ekotizimi jadal rivojlanmoqda. IT Park, UzDigital va boshqa tashkilotlar yosh tadbirkorlarga moliyaviy yordam va mentorlik xizmatlari ko'rsatmoqda. 2023 yilda O'zbekiston startaplarini jami 50 million dollar investitsiya jalb qildi. Bu ko'rsatkich yildan-yilga o'sib bormoqda.",
         category: "Biznes",
         tags: ["startap", "tadbirkorlik", "investitsiya", "innovatsiya"],
-        isAiGenerated: false
+        isAiGenerated: false,
+        imageUrl: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
       },
       {
         title: "Kibertxavfsizlik: raqamli dunyodagi xavflar va himoya usullari",
@@ -214,7 +223,8 @@ export class MemStorage implements IStorage {
         content: "Zamonaviy dunyoda kibertxavfsizlik muhim masala hisoblanadi. Haker hujumlari, ma'lumotlar o'g'irlanishi va raqamli firibgarlik hollari ko'paymoqda. Shaxsiy ma'lumotlarni himoya qilish uchun kuchli parollar, ikki bosqichli autentifikatsiya va xavfsizlik dasturlari ishlatish zarur. O'zbekistonda ham kibertxavfsizlik bo'yicha mutaxassislar tayyorlash boshlangan.",
         category: "Xavfsizlik",
         tags: ["kibertxavfsizlik", "haker", "himoya", "internet"],
-        isAiGenerated: false
+        isAiGenerated: false,
+        imageUrl: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
       },
       {
         title: "IoT texnologiyalari qishloq xo'jaligida: smart fermalar davri",
@@ -222,7 +232,8 @@ export class MemStorage implements IStorage {
         content: "IoT (Internetga ulangan narsalar) texnologiyalari qishloq xo'jaligida keng qo'llanilmoqda. Smart fermalarda sensorlar orqali tuproq namligi, havo harorati va o'simliklarning holati nazorat qilinadi. Bu ma'lumotlar asosida suv berish va o'g'itlash avtomatik ravishda amalga oshiriladi. Natijada hosildorlik 30% gacha oshadi va resurslarga tejamkor yondashuv ta'minlanadi.",
         category: "Qishloq xo'jaligi",
         tags: ["IoT", "smart ferma", "qishloq xo'jaligi", "avtomatlashtirish"],
-        isAiGenerated: false
+        isAiGenerated: false,
+        imageUrl: "https://images.unsplash.com/photo-1574943320219-553eb213f72d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
       },
       {
         title: "Virtual va AR texnologiyalar: haqiqatning yangi ko'rinishi",
@@ -230,7 +241,8 @@ export class MemStorage implements IStorage {
         content: "Virtual Reality (VR) va Augmented Reality (AR) texnologiyalari nafaqat o'yinlar uchun, balki ta'lim, tibbiyot va muhandislik sohalarida ham faol ishlatilmoqda. VR orqali jarrohlar operatsiyalarni mashq qiladi, me'morlar binolarni virtual muhitda loyihalaydi. AR esa real dunyoga raqamli ma'lumotlarni qo'shib, yangi imkoniyatlar yaratadi.",
         category: "Virtual Reality",
         tags: ["VR", "AR", "virtual reallik", "texnologiya"],
-        isAiGenerated: false
+        isAiGenerated: false,
+        imageUrl: "https://images.unsplash.com/photo-1592478411213-6153e4ebc696?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
       },
       {
         title: "Raqamli to'lovlar tizimi: naqdsiz jamiyatga yo'l",
@@ -238,7 +250,8 @@ export class MemStorage implements IStorage {
         content: "Raqamli to'lovlar tizimi kundan-kunga keng tarqalmoqda. Mobil ilovalar orqali to'lovlar amalga oshirish, kriptovalyutalar va CBDClar (markaziy bank raqamli valyutalari) moliyaviy tizimni o'zgartirib bormoqda. O'zbekistonda ham Click, Payme va boshqa raqamli to'lov tizimlari faol ishlatilmoqda. Bu tizimlar to'lovlarni tez va xavfsiz qilishga yordam beradi.",
         category: "Moliya",
         tags: ["raqamli to'lov", "mobil", "moliya", "kriptovalyuta"],
-        isAiGenerated: false
+        isAiGenerated: false,
+        imageUrl: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
       },
       {
         title: "Kosmik sanoat rivojlanishi: O'zbekiston kosmosga qadam qo'ymoqda",
@@ -246,7 +259,8 @@ export class MemStorage implements IStorage {
         content: "O'zbekiston kosmik texnologiyalar sohasiga katta e'tibor bermoqda. Mamlakatning birinchi sun'iy yo'ldoshi 'O'zbekiston-sat' ni yaratish ustida ish olib borilmoqda. Bu loyiha telekommunikatsiya, meteorologiya va qishloq xo'jaligi kabi sohalarda foydalanish uchun mo'ljallangan. Shuningdek, yoshlarni kosmik fanlar bilan qiziqtirish maqsadida maxsus ta'lim dasturlari ishlab chiqilmoqda.",
         category: "Kosmik texnologiya",
         tags: ["kosmik", "sun'iy yo'ldosh", "O'zbekiston", "texnologiya"],
-        isAiGenerated: false
+        isAiGenerated: false,
+        imageUrl: "https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
       }
     ];
 
