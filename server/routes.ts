@@ -103,12 +103,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Topic is required" });
       }
 
+      const { fetchImageByKeyword } = await import("./services/unsplash");
       const generatedArticle = await generateArticle(topic, category);
+      
+      // Fetch relevant image from Unsplash
+      const imageUrl = await fetchImageByKeyword(topic);
       
       const article = await storage.createArticle({
         ...generatedArticle,
         isAiGenerated: true,
-        imageUrl: `https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600`,
+        imageUrl: imageUrl,
       });
 
       res.json(article);

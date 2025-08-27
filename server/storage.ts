@@ -80,6 +80,7 @@ export class MemStorage implements IStorage {
 
   private async seedArticles() {
     const { generateArticle } = await import("./services/gemini");
+    const { fetchImageByKeyword } = await import("./services/unsplash");
     
     const topics = [
       "Kvant kompyuterlarining kelajagi",
@@ -118,6 +119,9 @@ export class MemStorage implements IStorage {
         
         const generatedArticle = await generateArticle(topic, category);
         
+        // Fetch relevant image from Unsplash
+        const imageUrl = await fetchImageByKeyword(topic);
+        
         await this.createArticle({
           title: generatedArticle.title,
           summary: generatedArticle.summary,
@@ -125,7 +129,7 @@ export class MemStorage implements IStorage {
           category: generatedArticle.category,
           tags: generatedArticle.tags,
           isAiGenerated: true,
-          imageUrl: null
+          imageUrl: imageUrl
         });
         
         console.log(`✅ Article created: ${generatedArticle.title}`);
