@@ -116,7 +116,7 @@ export function ArticleCard({ article, isFeatured = false }: ArticleCardProps) {
                 className="w-full text-primary hover:bg-primary/10 font-medium text-sm justify-center"
                 data-testid={`button-read-article-${article.id}`}
               >
-                Davomini o'qish →
+                To'liq →
               </Button>
             </Link>
           </div>
