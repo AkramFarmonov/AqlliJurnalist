@@ -173,13 +173,40 @@ export class MemStorage implements IStorage {
         imageUrl: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
       },
       {
-        title: "O'zbekistonning IT eksport salohiyati: imkoniyatlar va istiqbollar",
-        summary: "Mamlakat IT xizmatlarini eksport qilish borasida sezilarli yutuqlarga erishmoqda.",
-        content: "So'nggi yillarda O'zbekistonda IT sohasining rivojlanishi kuzatilmoqda. 2023 yilda mamlakatdan IT xizmatlarini eksport hajmi 2.5 milliard dollarni tashkil etdi. Toshkent shahrida 300 dan ortiq IT kompaniya faoliyat yuritmoqda. Hukumat tomonidan IT sohani qo'llab-quvvatlash maqsadida maxsus soliq imtiyozlari va IT parklar tashkil etilgan.",
-        category: "IT va Biznes",
-        tags: ["IT", "eksport", "O'zbekiston", "texnologiya"],
+        title: "ChatGPT va Gemini: AI modellarining yangi avlodi",
+        summary: "Zamonaviy AI modellar inson bilan tabiiiy muloqot qilish va murakkab vazifalarni bajarish qobiliyatiga ega.",
+        content: "Sun'iy intellekt sohasida so'nggi yillarda katta yutuqlarga erishildi. ChatGPT, Google Gemini va boshqa katta til modellari (LLM) inson tilini chuqur tushunish va tabiiiy javoblar berish qobiliyatiga ega. Bu texnologiyalar ta'lim, biznes, ijod va boshqa ko'plab sohalarda qo'llanilmoqda. AI yordamchilari kod yozish, matn tahriri, tarjima qilish va hatto rasm yaratish kabi vazifalarni bajarishga qodir. O'zbekistonda ham AI texnologiyalarini o'rganish va qo'llash bo'yicha kurslar ochilgan.",
+        category: "AI & ML",
+        tags: ["chatgpt", "gemini", "AI", "sun'iy intellekt", "til modeli"],
+        isAiGenerated: false,
+        imageUrl: "https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
+      },
+      {
+        title: "O'zbekiston startup ekotizimi: yosh tadbirkorlar uchun imkoniyatlar",
+        summary: "Mamlakatimizda texnologik startaplar soni ortib, yangi investitsiya imkoniyatlari paydo bo'lmoqda.",
+        content: "O'zbekiston startup ekotizimi so'nggi yillarda sezilarli o'sishni ko'rsatmoqda. IT Park, PDP Academy va boshqa ta'lim muassasalari yosh dasturchilarni tayyorlashda muhim rol o'ynamoqda. Venture kapital fondlari va angel investorlar mahalliy startaplarga qiziqish bildirmoqda. E-commerce, fintech va edtech sohalarida eng ko'p startaplar faoliyat yuritmoqda. 2024 yilda mahalliy startaplar jami 75 million dollar investitsiya jalb qildi.",
+        category: "Biznes",
+        tags: ["startup", "investitsiya", "IT Park", "biznes", "texnologiya"],
+        isAiGenerated: false,
+        imageUrl: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
+      },
+      {
+        title: "Raqamli O'zbekiston dasturi: davlat xizmatlarining modernizatsiyasi",
+        summary: "Davlat xizmatlari raqamlashtirish orqali fuqarolar uchun qulayroq va tezroq bo'lmoqda.",
+        content: "O'zbekiston hukumati 'Raqamli O'zbekiston - 2030' strategiyasini amalga oshirish doirasida davlat xizmatlarini raqamlashtirishga katta e'tibor bermoqda. MyGov platformasi orqali 300 dan ortiq davlat xizmati onlayn rejimda ko'rsatilmoqda. Elektron imzo, raqamli pasport va boshqa innovatsion yechimlar fuqarolarning hayotini osonlashtirmoqda. Raqamlashtirish natijasida davlat xizmatlaridan foydalanish vaqti 80% ga qisqardi.",
+        category: "Siyosat",
+        tags: ["raqamlashtirish", "davlat xizmatlari", "MyGov", "innovatsiya"],
         isAiGenerated: false,
         imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
+      },
+      {
+        title: "Osiyo kubogi 2023: O'zbekiston futbol jamoasining yutuqlari",
+        summary: "Milliy jamoa Osiyo kubogida istoriy natijaga erishdi va yarim finalga yo'l oldi.",
+        content: "O'zbekiston milliy futbol jamoasi 2023-yilgi Osiyo kubogida ajoyib natija ko'rsatdi. Jamoa guruh bosqichini birinchi o'rin bilan yakunlab, playoff bosqichida Tailand va Avstraliya jamoalarini mag'lub etdi. Yarim finalda Katarga yutqazgan bo'lsa-da, bu natija O'zbekiston futboli uchun tarixiy yutuq hisoblanadi. Eldor Shomurodov va Jaloliddin Masharipov kabi futbolchilar turnirning eng yaxshi o'yinchilari qatoriga kirdi. Jamoa o'yini millionlab fuqarimizni birlashtirdi.",
+        category: "Sport",
+        tags: ["futbol", "Osiyo kubogi", "milliy jamoa", "sport"],
+        isAiGenerated: false,
+        imageUrl: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
       },
       {
         title: "Sun'iy intellekt va ta'lim tizimi: yangi imkoniyatlar",

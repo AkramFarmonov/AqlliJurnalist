@@ -19,7 +19,18 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const { data: articles = [], isLoading } = useQuery<Article[]>({
-    queryKey: ["/api/articles", selectedCategory !== "Hammasi" ? selectedCategory : undefined],
+    queryKey: ["articles", selectedCategory],
+    queryFn: async () => {
+      const url = selectedCategory === "Hammasi" 
+        ? "/api/articles"
+        : `/api/articles?category=${encodeURIComponent(selectedCategory)}`;
+      
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    },
     refetchInterval: 30000, // Refresh every 30 seconds
   });
 
