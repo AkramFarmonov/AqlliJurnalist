@@ -4,6 +4,8 @@ import { setupVite, serveStatic, log } from "./vite";
 import { startScheduler } from "./core/scheduler";
 
 const app = express();
+// Trust proxy to ensure correct req.protocol (https) behind Render/Proxies
+app.set('trust proxy', true);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://aqlli-jurnalist.replit.app/sitemap.xml
+Sitemap: /sitemap.xml
 
 # Disallow crawling of API endpoints
 Disallow: /api/
