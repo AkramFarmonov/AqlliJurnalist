@@ -3,7 +3,11 @@ import { storage } from "../storage";
 import { generateArticle, analyzeTrends } from "../services/gemini";
 import { fetchImageByKeyword } from "../services/unsplash";
 import { postToChannel, sendNotification } from "../services/telegram";
+import { NewsApiService } from "../services/newsApi";
 import { randomUUID } from "crypto";
+
+// Initialize News API service
+const newsApiService = new NewsApiService();
 
 // Topics for content generation when trending topics are not available
 const contentTopics = [
@@ -47,28 +51,58 @@ async function generateAndPostContent(): Promise<void> {
   console.log("🚀 Starting automated content generation...");
 
   try {
-    // Step 1: Get a topic (either from trends or predefined list)
-    let topic: string;
+    // Step 1: Get recent articles to check for duplicates
+    const recentArticles = await storage.getArticles(20); // Get more articles to check
+    
+    // Step 2: Get a topic (either from trends, News API, or predefined list)
+    let topic: string = '';
     let category = "Texnologiya";
+    let isFromNewsApi = false;
 
     try {
-      // Try to get trending topics first
-      const articles = await storage.getArticles(10);
-      if (articles.length > 0) {
-        const trends = await analyzeTrends(articles);
-        if (trends.length > 0) {
-          const topTrend = trends[0];
-          topic = topTrend.topic.replace('#', '');
-          console.log(`📈 Using trending topic: ${topic}`);
-        } else {
-          topic = getRandomTopic();
-          console.log(`🎲 Using random topic: ${topic}`);
+      // First try to get news from News API
+      const newsApiArticles = await newsApiService.fetchTrendingNews('technology', 'us');
+      if (newsApiArticles.articles && newsApiArticles.articles.length > 0) {
+        // Filter out articles with similar titles to what we've already posted
+        const newArticle = newsApiArticles.articles.find((article) => {
+          if (!article.title) return false;
+          return !recentArticles.some(ra => 
+            ra.title?.toLowerCase().includes(article.title?.toLowerCase().substring(0, 20) || '') ||
+            article.title?.toLowerCase().includes(ra.title?.toLowerCase().substring(0, 20) || '')
+          );
+        });
+        
+        if (newArticle?.title) {
+          topic = newArticle.title;
+          isFromNewsApi = true;
+          console.log(`📰 Using news from News API: ${topic}`);
         }
-      } else {
+      }
+      
+      // If no news from API, try to get trending topics
+      if (!topic) {
+        try {
+          const articles = await storage.getArticles(10);
+          if (articles.length > 0) {
+            const trends = await analyzeTrends(articles);
+            if (trends.length > 0 && trends[0]?.topic) {
+              const topTrend = trends[0];
+              topic = topTrend.topic.replace('#', '');
+              console.log(`📈 Using trending topic: ${topic}`);
+            }
+          }
+        } catch (error) {
+          console.error("Error getting trending topics:", error);
+        }
+      }
+      
+      // If still no topic, use a random one
+      if (!topic) {
         topic = getRandomTopic();
         console.log(`🎲 Using random topic: ${topic}`);
       }
     } catch (error) {
+      console.error("Error getting topic:", error);
       topic = getRandomTopic();
       console.log(`🎲 Using fallback topic: ${topic}`);
     }
@@ -112,7 +146,7 @@ Kelajakda ${topic.toLowerCase()} sohasida yanada katta yutuqlarga erishish kutil
       imageUrl = "https://images.unsplash.com/photo-1504384764586-bb4cdc1707b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600";
     }
 
-    // Step 4: Save article to database
+    // Step 4: Check for duplicates before saving
     const articleData = {
       title: generatedArticle.title,
       summary: generatedArticle.summary,
@@ -123,24 +157,39 @@ Kelajakda ${topic.toLowerCase()} sohasida yanada katta yutuqlarga erishish kutil
       imageUrl: imageUrl
     };
 
+    const isDuplicate = recentArticles.some(article => 
+      article.title.toLowerCase() === articleData.title.toLowerCase() ||
+      article.summary.toLowerCase() === articleData.summary.toLowerCase()
+    );
+    
+    if (isDuplicate) {
+      console.log("⏭️  Duplicate article detected, skipping...");
+      return;
+    }
+    
+    // Step 5: Save article to database
     console.log(`💾 Saving article to database: ${articleData.title}`);
     const savedArticle = await storage.createArticle(articleData);
 
-    // Step 5: Post to Telegram channel
-    console.log(`📱 Posting to Telegram channel...`);
-    const telegramArticle = {
-      title: savedArticle.title,
-      summary: savedArticle.summary,
-      imageUrl: savedArticle.imageUrl,
-      id: savedArticle.id
-    };
+    // Step 6: Post to Telegram channel (only if not from News API or if explicitly enabled)
+    if (!isFromNewsApi || process.env.ENABLE_NEWS_API_POSTING === 'true') {
+      console.log(`📱 Posting to Telegram channel...`);
+      const telegramArticle = {
+        title: savedArticle.title,
+        summary: savedArticle.summary,
+        imageUrl: savedArticle.imageUrl,
+        id: savedArticle.id
+      };
 
-    const telegramSuccess = await postToChannel(telegramArticle);
+      const telegramSuccess = await postToChannel(telegramArticle);
 
-    if (telegramSuccess) {
-      console.log(`✅ Successfully completed automated content generation for: ${savedArticle.title}`);
+      if (telegramSuccess) {
+        console.log(`✅ Successfully posted to Telegram: ${savedArticle.title}`);
+      } else {
+        console.log(`⚠️  Article saved but Telegram posting failed for: ${savedArticle.title}`);
+      }
     } else {
-      console.log(`⚠️  Article saved but Telegram posting failed for: ${savedArticle.title}`);
+      console.log(`ℹ️  Article saved but not posted to Telegram (from News API and posting disabled)`);
     }
 
     // Optional: Update analytics

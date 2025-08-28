@@ -21,9 +21,7 @@ export async function postToChannel(article: TelegramArticle): Promise<boolean> 
     const bot = new TelegramBot(botToken, { polling: false });
     
     // Create the message caption
-    const websiteUrl = process.env.REPLIT_DOMAINS 
-      ? `https://${process.env.REPLIT_DOMAINS.split(',')[0]}`
-      : "https://aqlli-jurnalist.replit.app";
+    const websiteUrl = "https://aqlli-jurnalist.onrender.com";
     
     const caption = `*${article.title}*
 
@@ -31,7 +29,7 @@ ${article.summary}
 
 [📖 Batafsil o'qish](${websiteUrl}/article/${article.id})
 
-#AqlliJurnalist #Yangilik #AI`;
+#AqlliJurnalist #Yangilik #SuniyIntellekt`;
 
     if (article.imageUrl) {
       try {
