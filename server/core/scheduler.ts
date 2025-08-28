@@ -274,13 +274,29 @@ export function startScheduler(): void {
 
   console.log("✅ Content scheduler is now active!");
 
-  // Run once shortly after startup to verify everything works without kutish
-  setTimeout(() => {
-    console.log("🚀 Initial run: Generating and posting content immediately after startup...");
-    generateAndPostContent().catch((e) => {
-      console.error("Initial generation failed:", e);
-    });
-  }, 5_000);
+  // Optional initial run after startup. Disabled by default to avoid duplicates
+  // around minute boundaries when the cron job also fires.
+  // Enable by setting STARTUP_RUN_ENABLED=true
+  const startupEnabled = (process.env.STARTUP_RUN_ENABLED || 'false').toLowerCase() === 'true';
+  if (startupEnabled) {
+    setTimeout(() => {
+      // Boundary guard: if we are at minute 0 or 30 within first 60s, skip to prevent
+      // overlapping with the cron tick which can cause duplicate posts.
+      const now = new Date();
+      const m = now.getMinutes();
+      const s = now.getSeconds();
+      if ((m === 0 || m === 30) && s < 60) {
+        console.log("⏭️  Skipping startup run at minute boundary to prevent duplicates");
+        return;
+      }
+      console.log("🚀 Startup run: Generating and posting content...");
+      generateAndPostContent().catch((e) => {
+        console.error("Startup generation failed:", e);
+      });
+    }, 5_000);
+  } else {
+    console.log("ℹ️  Startup run disabled (set STARTUP_RUN_ENABLED=true to enable)");
+  }
 }
 
 export function stopScheduler(): void {
