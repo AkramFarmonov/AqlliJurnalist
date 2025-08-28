@@ -3,6 +3,18 @@ import type { Article } from "@shared/schema";
 import { Link } from "wouter";
 
 export function PopularNews() {
+  function timeAgo(date?: string | Date) {
+    if (!date) return "";
+    const d = new Date(date);
+    const diff = Date.now() - d.getTime();
+    const minutes = Math.floor(diff / 60000);
+    if (minutes < 1) return "hozir";
+    if (minutes < 60) return `${minutes} daqiqa avval`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours} soat avval`;
+    const days = Math.floor(hours / 24);
+    return `${days} kun avval`;
+  }
   const { data = [], isLoading, error } = useQuery<Article[]>({
     queryKey: ["popular-articles"],
     queryFn: async () => {
@@ -56,7 +68,11 @@ export function PopularNews() {
                   <p className="text-sm text-foreground group-hover:text-primary transition-colors line-clamp-2">
                     {a.title}
                   </p>
-                  <div className="text-xs text-muted-foreground">{a.views} ko'rishlar</div>
+                  <div className="text-xs text-muted-foreground flex items-center gap-2">
+                    <span>{a.views} ko'rishlar</span>
+                    <span>·</span>
+                    <span>{timeAgo(a.publishedAt as unknown as string)}</span>
+                  </div>
                 </div>
               </Link>
             </li>
