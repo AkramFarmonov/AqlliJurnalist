@@ -252,7 +252,7 @@ export default function ArticlePage() {
         </div>
 
         {/* Article Stats */}
-        <div className="flex items-center justify-between pt-6 border-t border-border">
+        <div className="flex items-center justify-between pt-6 border-t border-border flex-wrap gap-3">
           <div className="flex items-center space-x-6 text-muted-foreground">
             <span className="flex items-center space-x-2 hover:text-primary transition-colors cursor-pointer" data-testid="article-views">
               <Eye className="w-5 h-5" />
@@ -272,10 +272,6 @@ export default function ArticlePage() {
           </div>
 
           <div className="flex items-center space-x-3">
-            <Button variant="outline" size="sm">
-              <MessageCircle className="w-4 h-4 mr-2" />
-              Fikr bildirish
-            </Button>
             <Button
               variant="outline"
               size="sm"
