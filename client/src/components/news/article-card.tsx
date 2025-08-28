@@ -18,6 +18,9 @@ export function ArticleCard({ article, isFeatured = false }: ArticleCardProps) {
     { addSuffix: true }
   );
 
+  // Optional external/source fields (future-proof)
+  const sourceName = (article as any)?.sourceName as string | undefined;
+
   // Limit summary length for better UX
   const truncateSummary = (text: string, maxLength: number) => {
     if (text.length <= maxLength) return text;
@@ -53,6 +56,9 @@ export function ArticleCard({ article, isFeatured = false }: ArticleCardProps) {
               }
               data-testid={`article-image-${article.id}`}
               loading="lazy"
+              decoding="async"
+              referrerPolicy="no-referrer"
+              sizes={isFeatured ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 640px) 100vw, 33vw"}
             />
           </div>
         )}
@@ -72,7 +78,7 @@ export function ArticleCard({ article, isFeatured = false }: ArticleCardProps) {
           />
         </div>
         
-        <div className="flex items-center space-x-2 mb-3">
+        <div className="flex items-center flex-wrap gap-2 mb-3">
           <Badge 
             variant="secondary" 
             className={`text-xs font-medium ${getCategoryColor(article.category)}`}
@@ -90,6 +96,11 @@ export function ArticleCard({ article, isFeatured = false }: ArticleCardProps) {
                 AI Generated
               </span>
             </div>
+          )}
+          {sourceName && (
+            <Badge variant="outline" className="text-[10px]">
+              {sourceName}
+            </Badge>
           )}
         </div>
         
