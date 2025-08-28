@@ -45,7 +45,6 @@ function App() {
             <meta property="og:description" content="O'zbekistondagi eng so'nggi yangiliklar va AI tomonidan yaratilgan maqolalar. Real vaqtda yangilanuvchi ma'lumotlar." />
             <meta property="og:type" content="website" />
             <meta name="twitter:card" content="summary_large_image" />
-            <link rel="canonical" href="https://aqlli-jurnalist.replit.app" />
           </Helmet>
                 <Toaster />
                 <Router />

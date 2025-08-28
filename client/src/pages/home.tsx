@@ -18,6 +18,20 @@ import type { Article } from "@shared/schema";
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState("Hammasi");
   const [searchQuery, setSearchQuery] = useState("");
+  const origin = typeof window !== 'undefined' ? window.location.origin : 'https://aqlli-jurnalist.replit.app';
+  const orgJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Aqlli Jurnalist',
+    url: origin,
+    logo: `${origin}/pwa-512x512.png`,
+  };
+  const siteJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Aqlli Jurnalist',
+    url: origin,
+  };
 
   const { data: articles = [], isLoading } = useQuery<Article[]>({
     queryKey: ["articles", selectedCategory],
@@ -64,11 +78,19 @@ export default function Home() {
         <meta property="og:title" content="Aqlli Jurnalist - AI-Powered Yangilik Platformasi" />
         <meta property="og:description" content="O'zbekistondagi eng so'nggi yangiliklar va AI tomonidan yaratilgan maqolalar. Real vaqtda yangilanuvchi ma'lumotlar va professional tahlillar." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://aqlli-jurnalist.replit.app" />
+        <meta property="og:url" content={origin} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Aqlli Jurnalist - AI-Powered Yangilik Platformasi" />
         <meta name="twitter:description" content="O'zbekistondagi eng so'nggi yangiliklar va AI maqolalari" />
-        <link rel="canonical" href="https://aqlli-jurnalist.replit.app" />
+        <link rel="canonical" href={origin} />
+        <script type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
+        />
+        <script type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
+        />
       </Helmet>
       <Navbar onSearch={handleSearch} />
       

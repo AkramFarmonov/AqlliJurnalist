@@ -18,6 +18,7 @@ export default function ArticlePage() {
   const [, params] = useRoute("/article/:id");
   const articleId = params?.id;
   const { addViewed } = useRecentlyViewed();
+  const origin = typeof window !== 'undefined' ? window.location.origin : 'https://aqlli-jurnalist.replit.app';
 
   const { data: article, isLoading, error } = useQuery<Article>({
     queryKey: ["/api/articles", articleId],
@@ -106,8 +107,23 @@ export default function ArticlePage() {
     ? article.content.substring(0, 160).replace(/\n/g, ' ').trim() + '...'
     : article.summary || 'Aqlli Jurnalist platformasidagi maqola';
 
-  const canonicalUrl = `https://aqlli-jurnalist.replit.app/article/${article.id}`;
-  const ogImage = article.imageUrl || 'https://aqlli-jurnalist.replit.app/og-default.jpg';
+  const canonicalUrl = `${origin}/article/${article.id}`;
+  const ogImage = article.imageUrl || `${origin}/pwa-512x512.png`;
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: article.title,
+    description: metaDescription,
+    image: ogImage,
+    datePublished: article.publishedAt ? new Date(article.publishedAt).toISOString() : new Date().toISOString(),
+    dateModified: article.createdAt ? new Date(article.createdAt).toISOString() : new Date().toISOString(),
+    author: {
+      '@type': 'Organization',
+      name: 'Aqlli Jurnalist'
+    },
+    mainEntityOfPage: canonicalUrl,
+    articleSection: article.category,
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
@@ -132,6 +148,10 @@ export default function ArticlePage() {
         {article.tags && article.tags.length > 0 && (
           <meta name="keywords" content={article.tags.join(', ')} />
         )}
+        <script type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
       </Helmet>
       <Navbar onSearch={() => {}} />
       

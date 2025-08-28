@@ -274,37 +274,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // SEO Sitemap endpoint
-  app.get("/sitemap.xml", async (req, res) => {
-    try {
-      const articles = await storage.getArticles();
-      const baseUrl = "https://aqlli-jurnalist.replit.app";
-      
-      // Generate XML sitemap
-      const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>${baseUrl}</loc>
-    <lastmod>${new Date().toISOString()}</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-  </url>${articles.map(article => `
-  <url>
-    <loc>${baseUrl}/article/${article.id}</loc>
-    <lastmod>${article.publishedAt ? new Date(article.publishedAt).toISOString() : new Date().toISOString()}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>`).join('')}
-</urlset>`;
-
-      res.set('Content-Type', 'application/xml');
-      res.send(sitemap);
-    } catch (error) {
-      console.error('Error generating sitemap:', error);
-      res.status(500).json({ error: "Failed to generate sitemap" });
-    }
-  });
-
-  // SEO Routes
+  // Delegate to dynamic sitemap generator (uses request host)
   app.get("/sitemap.xml", generateSitemap);
 
   return httpServer;
