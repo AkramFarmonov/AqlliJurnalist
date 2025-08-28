@@ -50,17 +50,20 @@ export function PopularNews() {
         <ul className="space-y-3">
           {data.map((a) => (
             <li key={a.id} className="group">
-              <Link href={`/article/${a.id}`} className="flex items-center gap-3">
+              <Link href={`/article/${a.id}`} className="group flex items-center gap-3">
                 {a.imageUrl ? (
-                  <img
-                    src={a.imageUrl}
-                    alt={a.title}
-                    className="w-16 h-12 object-cover rounded-md border border-border flex-shrink-0"
-                    loading="lazy"
-                    decoding="async"
-                    referrerPolicy="no-referrer"
-                    sizes="(max-width: 768px) 25vw, 160px"
-                  />
+                  <div className="relative overflow-hidden rounded-md w-16 h-12 flex-shrink-0">
+                    <img
+                      src={a.imageUrl}
+                      alt={a.title}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      loading="lazy"
+                      decoding="async"
+                      referrerPolicy="no-referrer"
+                      sizes="(max-width: 768px) 25vw, 160px"
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 pointer-events-none" />
+                  </div>
                 ) : (
                   <div className="w-16 h-12 rounded-md border border-dashed border-border bg-muted" />
                 )}
