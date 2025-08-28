@@ -109,6 +109,9 @@ export default function ArticlePage() {
 
   const canonicalUrl = `${origin}/article/${article.id}`;
   const ogImage = article.imageUrl || `${origin}/pwa-512x512.png`;
+  // Optional fields that may come from external sources in the future
+  const sourceName = (article as any)?.sourceName as string | undefined;
+  const externalCanonical = (article as any)?.canonicalUrl as string | undefined;
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'NewsArticle',
@@ -188,6 +191,11 @@ export default function ArticlePage() {
                 </span>
               </div>
             )}
+            {sourceName && (
+              <Badge variant="outline" className="text-xs">
+                Manba: {sourceName}
+              </Badge>
+            )}
           </div>
           
           <h1 
@@ -203,6 +211,18 @@ export default function ArticlePage() {
           >
             {article.summary}
           </p>
+          {externalCanonical && (
+            <div className="mt-4">
+              <a
+                href={externalCanonical}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center text-sm text-primary hover:underline"
+              >
+                Manbaga o‘tish
+              </a>
+            </div>
+          )}
         </header>
 
         {/* Article Image */}
@@ -214,6 +234,9 @@ export default function ArticlePage() {
               className="w-full h-64 sm:h-80 md:h-96 lg:h-[28rem] xl:h-[32rem] object-cover transition-transform duration-300 hover:scale-105"
               data-testid="article-image"
               loading="lazy"
+              decoding="async"
+              referrerPolicy="no-referrer"
+              sizes="(max-width: 768px) 100vw, 800px"
             />
           </div>
         )}
@@ -247,13 +270,39 @@ export default function ArticlePage() {
               <span className="text-sm">ulashish</span>
             </span>
           </div>
-          
+
           <div className="flex items-center space-x-3">
             <Button variant="outline" size="sm">
               <MessageCircle className="w-4 h-4 mr-2" />
               Fikr bildirish
             </Button>
-            <Button variant="outline" size="sm">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={async () => {
+                const shareUrl = canonicalUrl;
+                const shareData = {
+                  title: `${article.title} - Aqlli Jurnalist`,
+                  text: article.summary || "Qiziqarli maqola",
+                  url: shareUrl,
+                };
+                try {
+                  if (navigator.share) {
+                    await navigator.share(shareData);
+                  } else {
+                    await navigator.clipboard.writeText(shareUrl);
+                    alert("Havola nusxalandi!");
+                  }
+                } catch (e) {
+                  try {
+                    await navigator.clipboard.writeText(shareUrl);
+                    alert("Havola nusxalandi!");
+                  } catch {
+                    window.prompt("Ulashish uchun URL ni nusxalang:", shareUrl);
+                  }
+                }
+              }}
+            >
               <Share2 className="w-4 h-4 mr-2" />
               Ulashish
             </Button>
