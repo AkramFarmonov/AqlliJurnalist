@@ -102,6 +102,8 @@ export function Navbar({ onSearch }: NavbarProps) {
             )}
           </div>
           
+          </div>
+
           <div className="flex items-center space-x-4">
             {/* Desktop Search */}
             <form onSubmit={handleSearch} className="relative hidden md:block">
