@@ -1,11 +1,13 @@
 import { Brain } from "lucide-react";
+import { Link } from "wouter";
 
 export function Footer() {
+  const year = new Date().getFullYear();
   const footerSections = [
     {
       title: "Havolalar",
       links: [
-        { label: "Biz haqimizda", href: "#" },
+        { label: "Biz haqimizda", href: "/about" },
         { label: "Aloqa", href: "#" },
         { label: "Maxfiylik", href: "#" },
         { label: "Shartlar", href: "#" },
@@ -24,7 +26,7 @@ export function Footer() {
 
   return (
     <footer className="bg-card border-t border-border mt-12" data-testid="footer">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center space-x-2 mb-4">
@@ -45,14 +47,25 @@ export function Footer() {
               </h4>
               <div className="space-y-2 text-sm text-muted-foreground">
                 {section.links.map((link) => (
-                  <a 
-                    key={link.label}
-                    href={link.href} 
-                    className="block hover:text-primary transition-colors"
-                    data-testid={`footer-link-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
-                  >
-                    {link.label}
-                  </a>
+                  link.href.startsWith('/') ? (
+                    <Link 
+                      key={link.label}
+                      href={link.href}
+                      className="block hover:text-primary transition-colors"
+                      data-testid={`footer-link-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
+                    >
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <a 
+                      key={link.label}
+                      href={link.href}
+                      className="block hover:text-primary transition-colors"
+                      data-testid={`footer-link-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
+                    >
+                      {link.label}
+                    </a>
+                  )
                 ))}
               </div>
             </div>
@@ -83,9 +96,9 @@ export function Footer() {
           </div>
         </div>
         
-        <div className="border-t border-border mt-8 pt-6 text-center">
+        <div className="border-t border-border mt-10 pt-6 text-center">
           <p className="text-sm text-muted-foreground" data-testid="footer-copyright">
-            © 2024 Aqlli Jurnalist. Barcha huquqlar himoyalangan.
+            © {year} Aqlli Jurnalist. Barcha huquqlar himoyalangan.
           </p>
         </div>
       </div>
