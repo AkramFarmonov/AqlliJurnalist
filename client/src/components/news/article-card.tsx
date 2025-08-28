@@ -60,6 +60,9 @@ export function ArticleCard({ article, isFeatured = false }: ArticleCardProps) {
               referrerPolicy="no-referrer"
               sizes={isFeatured ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 640px) 100vw, 33vw"}
             />
+            {isFeatured && (
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-black/5 to-transparent" />
+            )}
           </div>
         )}
         

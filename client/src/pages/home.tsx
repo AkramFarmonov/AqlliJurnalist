@@ -7,6 +7,9 @@ import { ArticleCard } from "@/components/news/article-card";
 import { AiChat } from "@/components/sidebar/ai-chat";
 import { TrendingTopics } from "@/components/sidebar/trending-topics";
 import { AnalyticsDashboard } from "@/components/sidebar/analytics-dashboard";
+import { PopularNews } from "@/components/sidebar/popular-news";
+import { WeatherWidget } from "@/components/sidebar/weather-widget";
+import { ExchangeRate } from "@/components/sidebar/exchange-rate";
 import { RecentlyViewedSection } from "@/components/news/recently-viewed";
 
 import { useQuery } from "@tanstack/react-query";
@@ -177,9 +180,11 @@ export default function Home() {
           {/* Sidebar */}
           <aside className="lg:col-span-4 space-y-6 lg:sticky lg:top-6 lg:h-fit">
             <AiChat />
+            <WeatherWidget />
+            <ExchangeRate />
+            <PopularNews />
             <TrendingTopics />
             <AnalyticsDashboard />
-
           </aside>
         </div>
       </div>
