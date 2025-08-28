@@ -259,11 +259,6 @@ export default function ArticlePage() {
               <span className="font-medium">{article.views}</span>
               <span className="text-sm">ko'rishlar</span>
             </span>
-            <span className="flex items-center space-x-2 hover:text-primary transition-colors cursor-pointer" data-testid="article-comments">
-              <MessageCircle className="w-5 h-5" />
-              <span className="font-medium">{article.comments}</span>
-              <span className="text-sm">fikrlar</span>
-            </span>
             <span className="flex items-center space-x-2 hover:text-primary transition-colors cursor-pointer" data-testid="article-shares">
               <Share2 className="w-5 h-5" />
               <span className="font-medium">{article.shares}</span>
