@@ -256,6 +256,14 @@ export function startScheduler(): void {
   console.log("⏰ Starting content scheduler...");
   console.log(`📅 Schedule: Every 30 minutes from 9:00 to 21:00 (${schedule})`);
 
+  // Config diagnostics
+  const hasTelegram = !!process.env.TELEGRAM_BOT_TOKEN && !!process.env.TELEGRAM_CHAT_ID;
+  if (!hasTelegram) {
+    console.warn("⚠️ Telegram sozlamalari to'liq emas: TELEGRAM_BOT_TOKEN yoki TELEGRAM_CHAT_ID yo'q.");
+  } else {
+    console.log("📲 Telegram sozlamalari topildi: post yuborish tayyor.");
+  }
+
   cron.schedule(schedule, generateAndPostContent, {
     timezone: "Asia/Tashkent" // O'zbekiston vaqti
   });
@@ -265,6 +273,14 @@ export function startScheduler(): void {
     .catch(error => console.log("Startup notification failed:", error));
 
   console.log("✅ Content scheduler is now active!");
+
+  // Run once shortly after startup to verify everything works without kutish
+  setTimeout(() => {
+    console.log("🚀 Initial run: Generating and posting content immediately after startup...");
+    generateAndPostContent().catch((e) => {
+      console.error("Initial generation failed:", e);
+    });
+  }, 5_000);
 }
 
 export function stopScheduler(): void {
