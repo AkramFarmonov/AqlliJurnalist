@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Brain, Search, Menu, Download } from "lucide-react";
+import { Brain, Search, Menu, Download, History, Heart } from "lucide-react";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { Link, useLocation } from "wouter";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -45,8 +46,36 @@ export function Navbar({ onSearch }: NavbarProps) {
             </Badge>
           </div>
           
-          <div className="hidden md:flex items-center space-x-6">
-            {navLinks.map((link) => 
+          <div className="hidden md:flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
+              <Button 
+                asChild
+                variant="ghost" 
+                size="icon" 
+                title="Sevimlilar" 
+                className="text-muted-foreground hover:text-foreground"
+              >
+                <Link href="/favorites">
+                  <Heart className="h-5 w-5" />
+                </Link>
+              </Button>
+              <Button
+                asChild
+                variant="ghost"
+                size="icon"
+                title="Tarix"
+                className="text-muted-foreground hover:text-foreground"
+                data-testid="button-history"
+              >
+                <Link href="/#recently-viewed">
+                  <History className="h-5 w-5" />
+                </Link>
+              </Button>
+              <ThemeToggle />
+            </div>
+            <div className="h-6 w-px bg-border" />
+            <div className="flex items-center space-x-6">
+              {navLinks.map((link) => 
               link.href.startsWith('#') ? (
                 <a 
                   key={link.label}

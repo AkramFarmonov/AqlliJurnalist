@@ -4,7 +4,7 @@ import { generateArticle, analyzeTrends } from "../services/gemini";
 import { fetchImageByKeyword } from "../services/unsplash";
 import { postToChannel, sendNotification } from "../services/telegram";
 import { NewsApiService } from "../services/newsApi";
-import { randomUUID } from "crypto";
+import { randomUUID, createHash } from "crypto";
 
 // Initialize News API service
 const newsApiService = new NewsApiService();
@@ -29,6 +29,9 @@ const contentTopics = [
 ];
 
 let usedTopics: Set<string> = new Set();
+// In-process guard to prevent overlapping runs that can cause duplicates
+let isJobRunning = false;
+let lastPostedHash: string | null = null;
 
 function getRandomTopic(): string {
   // Reset used topics if all are used
@@ -51,8 +54,15 @@ async function generateAndPostContent(): Promise<void> {
   console.log("🚀 Starting automated content generation...");
 
   try {
+    // Concurrency guard
+    if (isJobRunning) {
+      console.log("⏭️  Job is already running, skipping this tick to prevent duplicates");
+      return;
+    }
+    isJobRunning = true;
+
     // Step 1: Get recent articles to check for duplicates
-    const recentArticles = await storage.getArticles(20); // Get more articles to check
+    const recentArticles = await storage.getArticles(100); // Broader window for duplicate checks
     
     // Step 2: Get a topic (either from trends, News API, or predefined list)
     let topic: string = '';
@@ -157,16 +167,30 @@ Kelajakda ${topic.toLowerCase()} sohasida yanada katta yutuqlarga erishish kutil
       imageUrl: imageUrl
     };
 
-    const isDuplicate = recentArticles.some(article => 
-      article.title.toLowerCase() === articleData.title.toLowerCase() ||
-      article.summary.toLowerCase() === articleData.summary.toLowerCase()
-    );
+    const normalize = (s: string) => s.toLowerCase().trim().replace(/\s+/g, " ");
+    const aTitle = normalize(articleData.title);
+    const aSummary = normalize(articleData.summary);
+    const isDuplicate = recentArticles.some(article => {
+      const rTitle = normalize(article.title || "");
+      const rSummary = normalize(article.summary || "");
+      // exact or strong partial overlap to catch near-duplicates
+      const titleOverlap = rTitle === aTitle || rTitle.includes(aTitle.slice(0, Math.min(20, aTitle.length))) || aTitle.includes(rTitle.slice(0, Math.min(20, rTitle.length)));
+      const summaryOverlap = rSummary === aSummary || rSummary.includes(aSummary.slice(0, Math.min(30, aSummary.length))) || aSummary.includes(rSummary.slice(0, Math.min(30, rSummary.length)));
+      return titleOverlap || summaryOverlap;
+    });
     
     if (isDuplicate) {
       console.log("⏭️  Duplicate article detected, skipping...");
       return;
     }
     
+    // In-process last-hash guard (extra safety)
+    const postHash = createHash('sha256').update(`${aTitle}\n${aSummary}`).digest('hex');
+    if (lastPostedHash && lastPostedHash === postHash) {
+      console.log("⏭️  Same content hash as last post detected, skipping to prevent duplicate send");
+      return;
+    }
+
     // Step 5: Save article to database
     console.log(`💾 Saving article to database: ${articleData.title}`);
     const savedArticle = await storage.createArticle(articleData);
@@ -185,6 +209,7 @@ Kelajakda ${topic.toLowerCase()} sohasida yanada katta yutuqlarga erishish kutil
 
       if (telegramSuccess) {
         console.log(`✅ Successfully posted to Telegram: ${savedArticle.title}`);
+        lastPostedHash = postHash;
       } else {
         console.log(`⚠️  Article saved but Telegram posting failed for: ${savedArticle.title}`);
       }
@@ -218,6 +243,8 @@ Kelajakda ${topic.toLowerCase()} sohasida yanada katta yutuqlarga erishish kutil
     } else {
       console.log("⚠️ API quota exceeded - fallback system should handle this");
     }
+  } finally {
+    isJobRunning = false;
   }
 }
 

@@ -5,6 +5,7 @@ import { Eye, MessageCircle, Share2, Bot } from "lucide-react";
 import { Link } from "wouter";
 import type { Article } from "@shared/schema";
 import { formatDistanceToNow } from "date-fns";
+import { FavoriteButton } from "@/components/favorites/favorite-button";
 
 interface ArticleCardProps {
   article: Article;
@@ -57,6 +58,19 @@ export function ArticleCard({ article, isFeatured = false }: ArticleCardProps) {
         )}
         
         <div className={isFeatured ? "p-6" : ""}>
+
+        {/* Favorite button (top-right) */}
+        <div className="flex justify-end mb-2">
+          <FavoriteButton
+            article={{
+              id: article.id,
+              title: article.title,
+              summary: article.summary,
+              imageUrl: article.imageUrl ?? undefined,
+              createdAt: (article.createdAt || article.publishedAt || new Date()).toString(),
+            }}
+          />
+        </div>
         
         <div className="flex items-center space-x-2 mb-3">
           <Badge 
@@ -82,7 +96,7 @@ export function ArticleCard({ article, isFeatured = false }: ArticleCardProps) {
         <div className="flex-1 flex flex-col">
           <Link href={`/article/${article.id}`}>
             <h3 
-              className={`${isFeatured ? 'text-3xl' : 'text-xl'} font-bold text-foreground mb-3 hover:text-primary cursor-pointer transition-colors`}
+              className={`${isFeatured ? 'text-3xl' : 'text-xl'} font-bold text-foreground mb-3 hover:text-primary cursor-pointer transition-colors line-clamp-2 md:line-clamp-3`}
               data-testid={`article-title-${article.id}`}
             >
               {article.title}
@@ -90,7 +104,7 @@ export function ArticleCard({ article, isFeatured = false }: ArticleCardProps) {
           </Link>
           
           <p 
-            className={`text-muted-foreground ${isFeatured ? 'text-base' : 'text-sm'} mb-4 flex-1 leading-relaxed`}
+            className={`text-muted-foreground ${isFeatured ? 'text-base' : 'text-sm'} mb-4 flex-1 leading-relaxed line-clamp-3 md:line-clamp-4`}
             data-testid={`article-summary-${article.id}`}
           >
             {displaySummary}

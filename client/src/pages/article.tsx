@@ -1,6 +1,7 @@
 import { useRoute } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, Eye, MessageCircle, Share2, Calendar, Bot } from "lucide-react";
+
 import { SimilarArticles } from "@/components/news/similar-articles";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -10,15 +11,31 @@ import { Link } from "wouter";
 import { Helmet } from "react-helmet-async";
 import type { Article } from "@shared/schema";
 import { formatDistanceToNow } from "date-fns";
+import { useEffect } from "react";
+import { useRecentlyViewed } from "@/contexts/recently-viewed-context";
 
 export default function ArticlePage() {
   const [, params] = useRoute("/article/:id");
   const articleId = params?.id;
+  const { addViewed } = useRecentlyViewed();
 
   const { data: article, isLoading, error } = useQuery<Article>({
     queryKey: ["/api/articles", articleId],
     enabled: !!articleId,
   });
+
+  // Add to recently viewed when article is loaded
+  useEffect(() => {
+    if (!article) return;
+    const createdAt = (article.createdAt || article.publishedAt || new Date()).toString();
+    addViewed({
+      id: article.id,
+      title: article.title,
+      summary: article.summary,
+      imageUrl: article.imageUrl || undefined,
+      createdAt,
+    });
+  }, [article, addViewed]);
 
   const getCategoryColor = (category: string) => {
     const colors: Record<string, string> = {

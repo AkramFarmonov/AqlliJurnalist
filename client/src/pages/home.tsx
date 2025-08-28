@@ -7,6 +7,7 @@ import { ArticleCard } from "@/components/news/article-card";
 import { AiChat } from "@/components/sidebar/ai-chat";
 import { TrendingTopics } from "@/components/sidebar/trending-topics";
 import { AnalyticsDashboard } from "@/components/sidebar/analytics-dashboard";
+import { RecentlyViewedSection } from "@/components/news/recently-viewed";
 
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
@@ -134,6 +135,9 @@ export default function Home() {
                 </div>
               )}
             </section>
+
+            {/* Recently Viewed */}
+            <RecentlyViewedSection />
 
             {!isLoading && filteredArticles.length > 0 && (
               <div className="text-center mt-8">
