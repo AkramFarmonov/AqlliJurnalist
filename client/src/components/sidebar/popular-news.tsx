@@ -52,17 +52,17 @@ export function PopularNews() {
             <li key={a.id} className="group">
               <Link href={`/article/${a.id}`} className="group flex items-center gap-3">
                 {a.imageUrl ? (
-                  <div className="relative overflow-hidden rounded-md w-16 h-12 flex-shrink-0">
+                  <div className="relative overflow-hidden rounded w-16 h-12 flex-shrink-0 border border-border">
                     <img
                       src={a.imageUrl}
                       alt={a.title}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-all duration-300 group-hover:scale-105"
                       loading="lazy"
                       decoding="async"
                       referrerPolicy="no-referrer"
                       sizes="(max-width: 768px) 25vw, 160px"
                     />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 pointer-events-none" />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
                   </div>
                 ) : (
                   <div className="w-16 h-12 rounded-md border border-dashed border-border bg-muted" />

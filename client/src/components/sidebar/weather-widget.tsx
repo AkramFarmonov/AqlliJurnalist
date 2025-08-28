@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { CloudSun } from "lucide-react";
+import { WeatherIcon } from "@/components/weather-icons";
 
 interface WeatherData {
   current_weather?: {
@@ -33,25 +33,11 @@ export function WeatherWidget() {
   const day2 = Math.round(data?.daily?.temperature_2m_max?.[1] ?? temp);
   const day3 = Math.round(data?.daily?.temperature_2m_max?.[2] ?? temp);
 
-  function iconFor(code?: number) {
-    if (code == null) return "☁️";
-    // Basic WMO mapping
-    if (code === 0) return "☀️"; // clear
-    if ([1, 2].includes(code)) return "🌤️"; // mainly clear/partly cloudy
-    if (code === 3) return "☁️"; // overcast
-    if ([45, 48].includes(code)) return "🌫️"; // fog
-    if ([51, 53, 55, 56, 57].includes(code)) return "🌦️"; // drizzle
-    if ([61, 63, 65, 66, 67].includes(code)) return "🌧️"; // rain
-    if ([71, 73, 75, 77].includes(code)) return "🌨️"; // snow
-    if ([80, 81, 82].includes(code)) return "🌧️"; // rain showers
-    if ([95, 96, 97].includes(code)) return "⛈️"; // thunderstorm
-    return "🌥️";
-  }
 
   return (
     <section className="bg-card border border-border rounded-xl p-4" data-testid="widget-weather">
       <div className="flex items-center gap-2 mb-2">
-        <CloudSun className="text-primary" />
+        <WeatherIcon code={3} size={16} className="text-primary" />
         <h3 className="text-sm font-semibold">Ob-havo · Toshkent</h3>
       </div>
       {isLoading ? (
@@ -61,7 +47,7 @@ export function WeatherWidget() {
       ) : (
         <div>
           <div className="text-3xl font-bold flex items-center gap-2">
-            <span>{iconFor(data?.current_weather?.weathercode)}</span>
+            <WeatherIcon code={data?.current_weather?.weathercode} size={24} />
             <span>{temp}°C</span>
           </div>
           <p className="text-sm text-muted-foreground">Bugun: {todayMin}° / {todayMax}°</p>
