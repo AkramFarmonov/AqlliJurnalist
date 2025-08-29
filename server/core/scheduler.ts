@@ -51,6 +51,7 @@ function getRandomTopic(): string {
 }
 
 async function generateAndPostContent(): Promise<void> {
+  console.log(`⏰ Scheduler triggered at: ${new Date().toLocaleString('en-US', { timeZone: 'Asia/Tashkent' })}`);
   console.log("🚀 Starting automated content generation...");
 
   try {
@@ -60,6 +61,7 @@ async function generateAndPostContent(): Promise<void> {
       return;
     }
     isJobRunning = true;
+    console.log("🔒 Job lock acquired");
 
     // Step 1: Get recent articles to check for duplicates
     const recentArticles = await storage.getArticles(100); // Broader window for duplicate checks
@@ -230,15 +232,21 @@ Kelajakda ${topic.toLowerCase()} sohasida yanada katta yutuqlarga erishish kutil
       console.log("Analytics update failed:", error);
     }
 
-  } catch (error) {
-    console.error("❌ Automated content generation completely failed:", error);
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Noma\'lum xatolik';
+    console.error("❌ Error in content generation:", error);
+    try {
+      await sendNotification(`❌ Xatolik yuz berdi: ${errorMessage}`);
+    } catch (e) {
+      console.error("Failed to send error notification:", e);
+    }
     
     // Only send critical error notifications (not API quota issues)
-    if (error instanceof Error && !error.message.includes('quota') && !error.message.includes('429')) {
+    if (error instanceof Error && !errorMessage.includes('quota') && !errorMessage.includes('429')) {
       try {
-        await sendNotification(`🚨 *Kritik xatolik*\n\nVaqt: ${new Date().toLocaleString('uz-UZ')}\nXatolik: ${error.message}`);
-      } catch (notificationError) {
-        console.error("Failed to send error notification:", notificationError);
+        await sendNotification(`🚨 *Kritik xatolik*\n\nVaqt: ${new Date().toLocaleString('uz-UZ')}\nXatolik: ${errorMessage}`);
+      } catch (e) {
+        console.error("Failed to send critical error notification:", e);
       }
     } else {
       console.log("⚠️ API quota exceeded - fallback system should handle this");
